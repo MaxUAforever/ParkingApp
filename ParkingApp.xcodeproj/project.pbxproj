@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		5234299F25B3378F00A48661 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5234299E25B3378F00A48661 /* main.cpp */; };
+		523429B525B3404900A48661 /* Car.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 523429B325B3404900A48661 /* Car.cpp */; };
+		523429B925B3533000A48661 /* ParkingPlace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 523429B725B3533000A48661 /* ParkingPlace.cpp */; };
+		523429BD25B3598E00A48661 /* Ticket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 523429BB25B3598E00A48661 /* Ticket.cpp */; };
+		523429C225B4571E00A48661 /* Parking.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 523429C025B4571E00A48661 /* Parking.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +29,16 @@
 /* Begin PBXFileReference section */
 		5234299B25B3378F00A48661 /* ParkingApp */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ParkingApp; sourceTree = BUILT_PRODUCTS_DIR; };
 		5234299E25B3378F00A48661 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		523429B225B33FD500A48661 /* ParkingEngine */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ParkingEngine; sourceTree = "<group>"; };
+		523429B325B3404900A48661 /* Car.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Car.cpp; path = ParkingApp/ParkingEngine/Car.cpp; sourceTree = "<group>"; };
+		523429B425B3404900A48661 /* Car.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Car.hpp; path = ParkingApp/ParkingEngine/Car.hpp; sourceTree = "<group>"; };
+		523429B725B3533000A48661 /* ParkingPlace.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ParkingPlace.cpp; path = ParkingApp/ParkingEngine/ParkingPlace.cpp; sourceTree = "<group>"; };
+		523429B825B3533000A48661 /* ParkingPlace.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ParkingPlace.hpp; path = ParkingApp/ParkingEngine/ParkingPlace.hpp; sourceTree = "<group>"; };
+		523429BB25B3598E00A48661 /* Ticket.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Ticket.cpp; path = ParkingApp/ParkingEngine/Ticket.cpp; sourceTree = "<group>"; };
+		523429BC25B3598E00A48661 /* Ticket.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Ticket.hpp; path = ParkingApp/ParkingEngine/Ticket.hpp; sourceTree = "<group>"; };
+		523429C025B4571E00A48661 /* Parking.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Parking.cpp; path = ParkingApp/ParkingEngine/Parking.cpp; sourceTree = "<group>"; };
+		523429C125B4571E00A48661 /* Parking.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Parking.hpp; path = ParkingApp/ParkingEngine/Parking.hpp; sourceTree = "<group>"; };
+		523429CC25B4A22200A48661 /* Externals */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Externals; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +55,14 @@
 		5234299225B3378F00A48661 = {
 			isa = PBXGroup;
 			children = (
+				523429B725B3533000A48661 /* ParkingPlace.cpp */,
+				523429C025B4571E00A48661 /* Parking.cpp */,
+				523429C125B4571E00A48661 /* Parking.hpp */,
+				523429B825B3533000A48661 /* ParkingPlace.hpp */,
+				523429BB25B3598E00A48661 /* Ticket.cpp */,
+				523429BC25B3598E00A48661 /* Ticket.hpp */,
+				523429B325B3404900A48661 /* Car.cpp */,
+				523429B425B3404900A48661 /* Car.hpp */,
 				5234299D25B3378F00A48661 /* ParkingApp */,
 				5234299C25B3378F00A48661 /* Products */,
 			);
@@ -57,6 +79,8 @@
 		5234299D25B3378F00A48661 /* ParkingApp */ = {
 			isa = PBXGroup;
 			children = (
+				523429CC25B4A22200A48661 /* Externals */,
+				523429B225B33FD500A48661 /* ParkingEngine */,
 				5234299E25B3378F00A48661 /* main.cpp */,
 			);
 			path = ParkingApp;
@@ -118,7 +142,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				523429B925B3533000A48661 /* ParkingPlace.cpp in Sources */,
+				523429B525B3404900A48661 /* Car.cpp in Sources */,
+				523429C225B4571E00A48661 /* Parking.cpp in Sources */,
 				5234299F25B3378F00A48661 /* main.cpp in Sources */,
+				523429BD25B3598E00A48661 /* Ticket.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -240,6 +268,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = /Users/maxim.tytskiy/COExternals;
+				LIBRARY_SEARCH_PATHS = /usr/local/;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -248,6 +278,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = /Users/maxim.tytskiy/COExternals;
+				LIBRARY_SEARCH_PATHS = /usr/local/;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
