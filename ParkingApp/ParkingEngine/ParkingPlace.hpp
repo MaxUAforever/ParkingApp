@@ -5,18 +5,22 @@
 
 namespace ParkingEngine
 {
+using PlaceIndex = size_t;
 
 class ParkingPlace
 {
 public:
-    explicit ParkingPlace(size_t number);
+    explicit ParkingPlace(PlaceIndex number);
     
-    const size_t getNumber() const;
+    const PlaceIndex getNumber() const;
+    const size_t getPrice() const;
     
     bool operator== (const ParkingPlace& place) const;
+    bool operator< (const ParkingPlace& place) const;
     
 private:
-    size_t _number;
+    PlaceIndex _number;
+    size_t _price;
 };
 
 } // namespace ParkingEngine
