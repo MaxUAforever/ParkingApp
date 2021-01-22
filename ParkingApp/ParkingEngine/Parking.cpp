@@ -11,6 +11,13 @@ Parking::Parking(size_t placesCount, size_t barriersCount)
     {
         _freePlaces.insert({i, ParkingPlace(i)});
     }
+    
+    _barriers.reserve(barriersCount);
+    for (auto i = 1; i <= barriersCount; ++i)
+    {
+        _barriers.emplace_back(i);
+        _barriers.back().registerObserver(this);
+    }
 }
 
 AccessResult Parking::reservePlace(const Car& car, ParkingPlaces::iterator placeIt)
@@ -74,6 +81,12 @@ void Parking::releaseCar(const Car& car, int barrierNumber)
     }
     
     // TODO: call operator to barrier.
+}
+
+void Parking::onAlert(size_t barrierIndex)
+{
+    std::cout << "Operator is needed on " << barrierIndex << " barrier.\n";
+    return;
 }
 
 std::vector<PlaceIndex> Parking::getFreePlacesList() const
