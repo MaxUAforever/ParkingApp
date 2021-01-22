@@ -9,12 +9,12 @@ ParkingPlace::ParkingPlace(PlaceIndex number)
 {
 }
     
-const PlaceIndex ParkingPlace::getNumber() const
+PlaceIndex ParkingPlace::getNumber() const
 {
     return _number;
 }
 
-const size_t ParkingPlace::getPrice() const
+size_t ParkingPlace::getPrice() const
 {
     return _price;
 }

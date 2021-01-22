@@ -9,6 +9,11 @@ void Barrier::registerObserver(IBarrierObserver* observer)
     _observers.push_back(observer);
 }
 
+bool Barrier::open()
+{
+    return true;
+}
+
 void Barrier::alert()
 {
     for (auto observer : _observers)

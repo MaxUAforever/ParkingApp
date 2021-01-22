@@ -12,18 +12,18 @@ namespace ParkingEngine
 class Ticket
 {
 public:
-    Ticket(Car car, ParkingPlace parkingPlace, int startTime);
+    Ticket(CarRegNumber carRegNumber, PlaceIndex placeIndex, size_t startTime);
 
-    const Car& getCar() const;
-    const ParkingPlace& getPlace() const;
-    const int getStartTime() const;
+    CarRegNumber getCarRegNumber() const;
+    PlaceIndex getPlaceIndex() const;
+    size_t getStartTime() const;
 
     bool operator== (const Ticket& ticket) const;
     
 private:
-    Car _car;
-    ParkingPlace _parkingPlace;
-    int _startTime;
+    CarRegNumber _carRegNumber;
+    PlaceIndex _placeIndex;
+    size_t _startTime;
 };
 
 } // namespace ParkingEngine

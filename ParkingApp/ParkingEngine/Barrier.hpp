@@ -13,6 +13,7 @@ public:
     
     void registerObserver(IBarrierObserver* observer);
     
+    bool open();
     void alert();
     
 private:

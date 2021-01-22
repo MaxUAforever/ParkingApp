@@ -6,12 +6,8 @@
 namespace ParkingEngine
 {
 Parking::Parking(size_t placesCount, size_t barriersCount)
+    : _placesManager(placesCount)
 {
-    for (PlaceIndex i = 1; i <= placesCount; ++i)
-    {
-        _freePlaces.insert({i, ParkingPlace(i)});
-    }
-    
     _barriers.reserve(barriersCount);
     for (auto i = 1; i <= barriersCount; ++i)
     {
@@ -20,7 +16,7 @@ Parking::Parking(size_t placesCount, size_t barriersCount)
     }
 }
 
-AccessResult Parking::reservePlace(const Car& car, ParkingPlaces::iterator placeIt)
+AccessResult Parking::reservePlace(const Car& car, PlaceIndex placeIndex)
 {
     auto ticketIt = _tickets.find(car.getRegNumber());
     if (ticketIt != _tickets.end())
@@ -28,59 +24,67 @@ AccessResult Parking::reservePlace(const Car& car, ParkingPlaces::iterator place
         return AccessErrorCode::DuplicateCarNumber;
     }
     
-    const auto ticket = Ticket(car, std::move(placeIt->second), 0);
+    if (!_placesManager.reservePlace(placeIndex))
+    {
+        return AccessErrorCode::NotEmptyPlace;
+    }
+    
+    const auto ticket = Ticket(car.getRegNumber(), placeIndex, TimeManager::getCurrentTime());
     _tickets.insert({car.getRegNumber(), ticket});
-    _freePlaces.erase(placeIt);
+    _cars.insert({car.getRegNumber(), car});
     
     return _tickets.at(car.getRegNumber());
 }
 
-AccessResult Parking::acceptCar(const Car& car, int barrierNumber)
+AccessResult Parking::acceptCar(const Car& car, size_t barrierNumber)
 {
-    if (_freePlaces.empty())
+    if (_placesManager.isParkingFull())
     {
         return AccessErrorCode::FullParking;
     }
     
-    auto placeIt = _freePlaces.begin();
-    return reservePlace(car, placeIt);
+    return reservePlace(car, _placesManager.getFreePlacesList().at(0));
 }
 
-AccessResult Parking::acceptCar(const Car& car, int barrierNumber, size_t placeIndex)
+AccessResult Parking::acceptCar(const Car& car, size_t barrierNumber, size_t placeIndex)
 {
-    if (_freePlaces.empty())
+    if (_placesManager.isParkingFull())
     {
         return AccessErrorCode::FullParking;
     }
-    
-    auto placeIt = _freePlaces.find(placeIndex);
-    if (placeIt == _freePlaces.end())
-    {
-        return AccessErrorCode::NotEmptyPlace;
-    }
 
-    return reservePlace(car, placeIt);
+    return reservePlace(car, placeIndex);
 }
 
-void Parking::releaseCar(const Car& car, int barrierNumber)
+void Parking::releaseCar(const Car& car, size_t barrierNumber)
 {
     auto ticketIt = _tickets.find(car.getRegNumber());
-    if (ticketIt != _tickets.end())
+    auto carIt = _cars.find(car.getRegNumber());
+                            
+    if (ticketIt == _tickets.end() || carIt == _cars.end())
     {
-        auto place = ticketIt->second.getPlace();
-        const auto& ticket = ticketIt->second;
-        
+        onAlert(barrierNumber);
+        return;
+    }
+    
+    const auto& ticket = ticketIt->second;
+    if (const auto& place = _placesManager.getPlace(ticket.getPlaceIndex()))
+    {
         const auto durationTime = TimeManager::getCurrentTime() - ticket.getStartTime();
-        const auto price = place.getPrice() * durationTime;
+        const auto price = place->getPrice() * durationTime;
         
         if (PaymentService::getPayment(price))
         {
-            _freePlaces.insert({place.getNumber(), place});
+            _placesManager.releasePlace(ticket.getPlaceIndex());
             _tickets.erase(ticketIt);
+            _cars.erase(carIt);
+            
+            _barriers.at(barrierNumber).open();
+            return;
         }
     }
     
-    // TODO: call operator to barrier.
+    onAlert(barrierNumber);
 }
 
 void Parking::onAlert(size_t barrierIndex)
@@ -91,15 +95,7 @@ void Parking::onAlert(size_t barrierIndex)
 
 std::vector<PlaceIndex> Parking::getFreePlacesList() const
 {
-    std::vector<PlaceIndex> freePlacesIndexes;
-    freePlacesIndexes.reserve(_freePlaces.size());
-    
-    for (auto place : _freePlaces)
-    {
-        freePlacesIndexes.push_back(place.first);
-    }
-    
-    return freePlacesIndexes;
+    return _placesManager.getFreePlacesList();
 }
 
 } // namespace ParkingEngine

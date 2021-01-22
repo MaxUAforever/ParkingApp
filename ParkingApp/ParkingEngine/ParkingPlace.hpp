@@ -12,8 +12,8 @@ class ParkingPlace
 public:
     explicit ParkingPlace(PlaceIndex number);
     
-    const PlaceIndex getNumber() const;
-    const size_t getPrice() const;
+    PlaceIndex getNumber() const;
+    size_t getPrice() const;
     
     bool operator== (const ParkingPlace& place) const;
     bool operator< (const ParkingPlace& place) const;

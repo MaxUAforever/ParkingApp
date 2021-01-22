@@ -33,7 +33,7 @@ void processParkingAccessResult(const AccessResult& result)
     else if (result.type() == typeid(Ticket))
     {
         const auto ticket = boost::get<Ticket>(result);
-        std::cout << "Welcome! Your place is " << ticket.getPlace().getNumber() << ".\n";
+        std::cout << "Welcome! Your place is " << ticket.getPlaceIndex() << ".\n";
     }
 }
 
