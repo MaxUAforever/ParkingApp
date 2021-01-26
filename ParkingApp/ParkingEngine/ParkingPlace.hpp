@@ -1,26 +1,45 @@
 #ifndef ParkingPlace_hpp
 #define ParkingPlace_hpp
 
+#include <cstdint>
 #include <stdio.h>
 
 namespace ParkingEngine
 {
-using PlaceIndex = size_t;
+enum class VehicleType : std::uint8_t
+{
+    Car,
+    Truck,
+    Motorbyke
+};
+
+using PlaceNumber = size_t;
 
 class ParkingPlace
 {
 public:
-    explicit ParkingPlace(PlaceIndex number);
+    explicit ParkingPlace(PlaceNumber number, int floor = 1, bool isForDisabled = false, VehicleType vehicleType = VehicleType::Car);
     
-    PlaceIndex getNumber() const;
-    size_t getPrice() const;
+    PlaceNumber getNumber() const;
+    void setNumber(PlaceNumber number);
+    
+    int getFloor() const;
+    void setFloor(int floor);
+    
+    bool isForDisabled() const;
+    void setIsForDisabled(bool isForDisabled);
+    
+    VehicleType getVehicleType() const;
+    void setVehicleType(VehicleType vehicleType);
     
     bool operator== (const ParkingPlace& place) const;
     bool operator< (const ParkingPlace& place) const;
     
 private:
-    PlaceIndex _number;
-    size_t _price;
+    PlaceNumber _number;
+    int _floor;
+    bool _isForDisabled;
+    VehicleType _vehicleType;
 };
 
 } // namespace ParkingEngine

@@ -16,7 +16,7 @@ Parking::Parking(size_t placesCount, size_t barriersCount)
     }
 }
 
-AccessResult Parking::reservePlace(const Car& car, PlaceIndex placeIndex)
+AccessResult Parking::reservePlace(const Car& car, PlaceNumber placeNumber)
 {
     auto ticketIt = _tickets.find(car.getRegNumber());
     if (ticketIt != _tickets.end())
@@ -24,13 +24,13 @@ AccessResult Parking::reservePlace(const Car& car, PlaceIndex placeIndex)
         return AccessErrorCode::DuplicateCarNumber;
     }
     
-    if (!_placesManager.reservePlace(placeIndex))
+    if (!_placesManager.reservePlace(placeNumber))
     {
         return AccessErrorCode::NotEmptyPlace;
     }
     
-    const auto ticket = Ticket(car.getRegNumber(), placeIndex, TimeManager::getCurrentTime());
-    _tickets.insert({car.getRegNumber(), ticket});
+    const auto ticket = Ticket(car.getRegNumber(), placeNumber, TimeManager::getCurrentTime());
+    _tickets.insert({car.getRegNumber(), ticket}); // -> emplace
     _cars.insert({car.getRegNumber(), car});
     
     return _tickets.at(car.getRegNumber());
@@ -46,14 +46,14 @@ AccessResult Parking::acceptCar(const Car& car, size_t barrierNumber)
     return reservePlace(car, _placesManager.getFreePlacesList().at(0));
 }
 
-AccessResult Parking::acceptCar(const Car& car, size_t barrierNumber, size_t placeIndex)
+AccessResult Parking::acceptCar(const Car& car, size_t barrierNumber, size_t placeNumber)
 {
     if (_placesManager.isParkingFull())
     {
         return AccessErrorCode::FullParking;
     }
 
-    return reservePlace(car, placeIndex);
+    return reservePlace(car, placeNumber);
 }
 
 void Parking::releaseCar(const Car& car, size_t barrierNumber)
@@ -68,14 +68,14 @@ void Parking::releaseCar(const Car& car, size_t barrierNumber)
     }
     
     const auto& ticket = ticketIt->second;
-    if (const auto& place = _placesManager.getPlace(ticket.getPlaceIndex()))
+    if (const auto& place = _placesManager.getPlace(ticket.getPlaceNumber()))
     {
         const auto durationTime = TimeManager::getCurrentTime() - ticket.getStartTime();
-        const auto price = place->getPrice() * durationTime;
+        const auto price = 10 * durationTime;
         
         if (PaymentService::getPayment(price))
         {
-            _placesManager.releasePlace(ticket.getPlaceIndex());
+            _placesManager.releasePlace(ticket.getPlaceNumber());
             _tickets.erase(ticketIt);
             _cars.erase(carIt);
             
@@ -93,7 +93,7 @@ void Parking::onAlert(size_t barrierIndex)
     return;
 }
 
-std::vector<PlaceIndex> Parking::getFreePlacesList() const
+std::vector<PlaceNumber> Parking::getFreePlacesList() const
 {
     return _placesManager.getFreePlacesList();
 }

@@ -6,9 +6,9 @@
 namespace ParkingEngine
 {
 
-Ticket::Ticket(CarRegNumber carRegNumber, PlaceIndex placeIndex, size_t startTime)
+Ticket::Ticket(CarRegNumber carRegNumber, PlaceNumber placeNumber, size_t startTime)
     : _carRegNumber(carRegNumber)
-    , _placeIndex(placeIndex)
+    , _placeNumber(placeNumber)
     , _startTime(startTime)
 {}
 
@@ -17,9 +17,9 @@ CarRegNumber Ticket::getCarRegNumber() const
     return _carRegNumber;
 }
 
-PlaceIndex Ticket::getPlaceIndex() const
+PlaceNumber Ticket::getPlaceNumber() const
 {
-    return _placeIndex;
+    return _placeNumber;
 }
 
 size_t Ticket::getStartTime() const
@@ -29,8 +29,8 @@ size_t Ticket::getStartTime() const
 
 bool Ticket::operator== (const Ticket& ticket) const
 {
-    return std::tie(_startTime, _placeIndex, _carRegNumber) ==
-           std::tie(ticket._startTime, ticket._placeIndex, ticket._carRegNumber);
+    return std::tie(_startTime, _placeNumber, _carRegNumber) ==
+           std::tie(ticket._startTime, ticket._placeNumber, ticket._carRegNumber);
 }
 
 } // namespace ParkingEngine

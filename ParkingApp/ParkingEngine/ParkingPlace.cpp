@@ -1,27 +1,62 @@
 #include "ParkingPlace.hpp"
 
+#include <cstdlib>
+#include <iostream>
+
 namespace ParkingEngine
 {
 
-ParkingPlace::ParkingPlace(PlaceIndex number)
+ParkingPlace::ParkingPlace(size_t number, int floor, bool isForDisabled, VehicleType vehicleType)
     : _number(number)
-    , _price(100)
-{
-}
+    , _floor(floor)
+    , _isForDisabled(isForDisabled)
+    , _vehicleType(vehicleType)
+{}
     
-PlaceIndex ParkingPlace::getNumber() const
+PlaceNumber ParkingPlace::getNumber() const
 {
     return _number;
 }
 
-size_t ParkingPlace::getPrice() const
+void ParkingPlace::setNumber(PlaceNumber number)
 {
-    return _price;
+    _number = number;
+}
+
+int ParkingPlace::getFloor() const
+{
+    return _floor;
+}
+
+void ParkingPlace::setFloor(int floor)
+{
+    _floor = floor;
+}
+
+bool ParkingPlace::isForDisabled() const
+{
+    return _isForDisabled;
+}
+
+void ParkingPlace::setIsForDisabled(bool isForDisabled)
+{
+    _isForDisabled = isForDisabled;
+}
+
+VehicleType ParkingPlace::getVehicleType() const
+{
+    return _vehicleType;
+}
+
+void ParkingPlace::setVehicleType(VehicleType vehicleType)
+{
+    _vehicleType = vehicleType;
 }
 
 bool ParkingPlace::operator== (const ParkingPlace& place) const
 {
-    return _number == place._number;
+    return std::tie(_number, _floor, _isForDisabled, _vehicleType) ==
+           std::tie(place._number, place._floor, place._isForDisabled, place._vehicleType);
 }
 
 bool ParkingPlace::operator< (const ParkingPlace& place) const

@@ -33,16 +33,16 @@ void processParkingAccessResult(const AccessResult& result)
     else if (result.type() == typeid(Ticket))
     {
         const auto ticket = boost::get<Ticket>(result);
-        std::cout << "Welcome! Your place is " << ticket.getPlaceIndex() << ".\n";
+        std::cout << "Welcome! Your place is " << ticket.getPlaceNumber() << ".\n";
     }
 }
 
 void printFreePlaces(const Parking& parking)
 {
     std::cout << "Free places: ";
-    for (const auto& placeIndex : parking.getFreePlacesList())
+    for (const auto& placeNumber : parking.getFreePlacesList())
     {
-        std::cout << placeIndex << " ";
+        std::cout << placeNumber << " ";
     }
     std::cout << std::endl;
 }

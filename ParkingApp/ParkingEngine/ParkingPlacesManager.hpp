@@ -9,21 +9,21 @@
 
 namespace ParkingEngine
 {
-using ParkingPlaces = std::map<PlaceIndex, ParkingPlace>;
+using ParkingPlaces = std::map<PlaceNumber, ParkingPlace>;
 
 class ParkingPlacesManager
 {
 public:
     ParkingPlacesManager(size_t placesCount);
     
-    boost::optional<const ParkingPlace&> getPlace(PlaceIndex placeIndex) const;
+    boost::optional<const ParkingPlace&> getPlace(PlaceNumber placeNumber) const;
     
     bool reserveFreePlace();
-    bool reservePlace(PlaceIndex placeIndex);
-    bool releasePlace(PlaceIndex placeIndex);
+    bool reservePlace(PlaceNumber placeNumber);
+    bool releasePlace(PlaceNumber placeNumber);
     
     bool isParkingFull() const;
-    std::vector<PlaceIndex> getFreePlacesList() const;
+    std::vector<PlaceNumber> getFreePlacesList() const;
     
 private:
     ParkingPlaces _freePlaces;

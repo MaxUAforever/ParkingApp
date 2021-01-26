@@ -36,15 +36,15 @@ public:
     Parking(size_t placesCount, size_t barriersCount);
 
     AccessResult acceptCar(const Car& car, size_t barrierNumber);
-    AccessResult acceptCar(const Car& car, size_t barrierNumber, size_t placeIndex);
+    AccessResult acceptCar(const Car& car, size_t barrierNumber, size_t placeNumber);
     void releaseCar(const Car& car, size_t barrierNumber);
 
     void onAlert(size_t barrierIndex) override;
     
-    std::vector<PlaceIndex> getFreePlacesList() const;
+    std::vector<PlaceNumber> getFreePlacesList() const;
     
 private:
-    AccessResult reservePlace(const Car& car, PlaceIndex placeNumber);
+    AccessResult reservePlace(const Car& car, PlaceNumber placeNumber);
     
 private:
     ParkingPlacesManager _placesManager;
