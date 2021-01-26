@@ -1,8 +1,8 @@
 #include <iostream>
 
-#include "ParkingEngine/Car.hpp"
+#include "ParkingEngine/Vehicle.hpp"
 #include "ParkingEngine/Parking.hpp"
-#include "ParkingEngine/Ticket.hpp"
+#include "ParkingEngine/SessionInfo.hpp"
 
 using namespace ParkingEngine;
 
@@ -20,7 +20,7 @@ void processParkingAccessResult(const AccessResult& result)
             }
             case AccessErrorCode::DuplicateCarNumber:
             {
-                std::cout << "This car is already parked!.\n";
+                std::cout << "This vehicle is already parked!.\n";
                 break;
             }
             case AccessErrorCode::FullParking:
@@ -30,9 +30,9 @@ void processParkingAccessResult(const AccessResult& result)
             }
         }
     }
-    else if (result.type() == typeid(Ticket))
+    else if (result.type() == typeid(SessionInfo))
     {
-        const auto ticket = boost::get<Ticket>(result);
+        const auto ticket = boost::get<SessionInfo>(result);
         std::cout << "Welcome! Your place is " << ticket.getPlaceNumber() << ".\n";
     }
 }
@@ -49,36 +49,36 @@ void printFreePlaces(const Parking& parking)
 
 int main(int argc, const char * argv[])
 {
-    Car car1(1);
-    Car car2(2);
-    Car car3(3);
+    Vehicle car1(1, VehicleType::Car);
+    Vehicle car2(2, VehicleType::Car);
+    Vehicle car3(3, VehicleType::Car);
     
     Parking parking(2, 1);
     
     printFreePlaces(parking);
     std::cout << std::endl;
     
-    std::cout << "Try to push car to the first place:\n";
+    std::cout << "Try to push vehicle to the first place:\n";
     processParkingAccessResult(parking.acceptCar(car1, 0));
     std::cout << std::endl;
     
-    std::cout << "Try to push the same car:\n";
+    std::cout << "Try to push the same vehicle:\n";
     processParkingAccessResult(parking.acceptCar(car1, 0));
     std::cout << std::endl;
     
-    std::cout << "Try to push second car to not free place:\n";
+    std::cout << "Try to push second vehicle to not free place:\n";
     processParkingAccessResult(parking.acceptCar(car2, 0, 1));
     std::cout << std::endl;
     
-    std::cout << "Try to push second car to free place:\n";
+    std::cout << "Try to push second vehicle to free place:\n";
     processParkingAccessResult(parking.acceptCar(car2, 0, 2));
     std::cout << std::endl;
     
-    std::cout << "Try to push third car to full parking:\n";
+    std::cout << "Try to push third vehicle to full parking:\n";
     processParkingAccessResult(parking.acceptCar(car3, 0));
     std::cout << std::endl;
     
-    std::cout << "Try to pop second car and push third:\n";
+    std::cout << "Try to pop second vehicle and push third:\n";
     parking.releaseCar(car2, 0);
     processParkingAccessResult(parking.acceptCar(car3, 0));
     std::cout << std::endl;

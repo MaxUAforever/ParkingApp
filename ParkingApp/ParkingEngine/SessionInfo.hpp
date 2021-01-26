@@ -1,24 +1,24 @@
-#ifndef Ticket_hpp
-#define Ticket_hpp
+#ifndef SessionInfo_hpp
+#define SessionInfo_hpp
 
 #include <stdio.h>
 
-#include "Car.hpp"
+#include "Vehicle.hpp"
 #include "ParkingPlace.hpp"
 
 namespace ParkingEngine
 {
 
-class Ticket
+class SessionInfo
 {
 public:
-    Ticket(CarRegNumber carRegNumber, PlaceNumber placeNumber, size_t startTime);
+    SessionInfo(CarRegNumber carRegNumber, PlaceNumber placeNumber, size_t startTime);
 
     CarRegNumber getCarRegNumber() const;
     PlaceNumber getPlaceNumber() const;
     size_t getStartTime() const;
 
-    bool operator== (const Ticket& ticket) const;
+    bool operator== (const SessionInfo& ticket) const;
     
 private:
     CarRegNumber _carRegNumber;
@@ -28,4 +28,4 @@ private:
 
 } // namespace ParkingEngine
 
-#endif /* Ticket_hpp */
+#endif /* SessionInfo_hpp */

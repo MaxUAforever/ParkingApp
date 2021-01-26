@@ -20,9 +20,9 @@ Parking::Parking(size_t placesCount, size_t barriersCount)
     _paymentManager.setVelicheCoefficient(VehicleType::Truck, 2);
 }
 
-AccessResult Parking::reservePlace(const Car& car, PlaceNumber placeNumber)
+AccessResult Parking::reservePlace(const Vehicle& vehicle, PlaceNumber placeNumber)
 {
-    auto ticketIt = _tickets.find(car.getRegNumber());
+    auto ticketIt = _tickets.find(vehicle.getRegNumber());
     if (ticketIt != _tickets.end())
     {
         return AccessErrorCode::DuplicateCarNumber;
@@ -33,37 +33,37 @@ AccessResult Parking::reservePlace(const Car& car, PlaceNumber placeNumber)
         return AccessErrorCode::NotEmptyPlace;
     }
     
-    const auto ticket = Ticket(car.getRegNumber(), placeNumber, TimeManager::getCurrentTime());
-    _tickets.emplace(car.getRegNumber(), ticket);
-    _cars.emplace(car.getRegNumber(), car);
+    const auto ticket = SessionInfo(vehicle.getRegNumber(), placeNumber, TimeManager::getCurrentTime());
+    _tickets.emplace(vehicle.getRegNumber(), ticket);
+    _cars.emplace(vehicle.getRegNumber(), vehicle);
     
-    return _tickets.at(car.getRegNumber());
+    return _tickets.at(vehicle.getRegNumber());
 }
 
-AccessResult Parking::acceptCar(const Car& car, size_t barrierNumber)
+AccessResult Parking::acceptCar(const Vehicle& vehicle, size_t barrierNumber)
 {
     if (_placesManager.isParkingFull())
     {
         return AccessErrorCode::FullParking;
     }
     
-    return reservePlace(car, _placesManager.getFreePlacesList().at(0));
+    return reservePlace(vehicle, _placesManager.getFreePlacesList().at(0));
 }
 
-AccessResult Parking::acceptCar(const Car& car, size_t barrierNumber, size_t placeNumber)
+AccessResult Parking::acceptCar(const Vehicle& vehicle, size_t barrierNumber, size_t placeNumber)
 {
     if (_placesManager.isParkingFull())
     {
         return AccessErrorCode::FullParking;
     }
 
-    return reservePlace(car, placeNumber);
+    return reservePlace(vehicle, placeNumber);
 }
 
-void Parking::releaseCar(const Car& car, size_t barrierNumber)
+void Parking::releaseCar(const Vehicle& vehicle, size_t barrierNumber)
 {
-    auto ticketIt = _tickets.find(car.getRegNumber());
-    auto carIt = _cars.find(car.getRegNumber());
+    auto ticketIt = _tickets.find(vehicle.getRegNumber());
+    auto carIt = _cars.find(vehicle.getRegNumber());
                             
     if (ticketIt == _tickets.end() || carIt == _cars.end())
     {
@@ -95,7 +95,7 @@ void Parking::onAlert(size_t barrierNumber)
     handleBarrierAlert(barrierNumber);
 }
 
-void handleBarrierAlert(size_t barrierNumber)
+void Parking::handleBarrierAlert(size_t barrierNumber)
 {
     std::cout << "Operator is needed on " << barrierNumber << " barrier.\n";
     return;

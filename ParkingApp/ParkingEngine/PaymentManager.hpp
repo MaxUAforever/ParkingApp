@@ -1,14 +1,14 @@
 #ifndef PaymentManager_hpp
 #define PaymentManager_hpp
 
-#include "Car.hpp"
+#include "Vehicle.hpp"
 
 #include <stdio.h>
 #include <unordered_map>
 
 namespace ParkingEngine
 {
-class Ticket;
+class SessionInfo;
 class ParkingPlace;
 
 class PaymentManager
@@ -18,7 +18,7 @@ public:
                    double disabledPersonDiscountCoef,
                    size_t floorDiscount);
     
-    size_t getTotalPrice(const Ticket& ticket, const ParkingPlace& place);
+    size_t getTotalPrice(const SessionInfo& ticket, const ParkingPlace& place);
     
     size_t getPriceBaseСoefficient() const;
     void setPriceBaseСoefficient(size_t priceBaseСoefficient);

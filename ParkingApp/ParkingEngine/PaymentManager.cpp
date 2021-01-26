@@ -1,7 +1,7 @@
 #include "PaymentManager.hpp"
 
 #include "ParkingPlace.hpp"
-#include "Ticket.hpp"
+#include "SessionInfo.hpp"
 #include "TimeManager.hpp"
 
 #include <cmath>
@@ -17,12 +17,13 @@ PaymentManager::PaymentManager(double priceBaseСoefficient,
     , _floorDiscount(floorDiscount)
 {}
 
-size_t PaymentManager::getTotalPrice(const Ticket& ticket, const ParkingPlace& place)
+size_t PaymentManager::getTotalPrice(const SessionInfo& ticket, const ParkingPlace& place)
 {
     const auto durationTime = TimeManager::getCurrentTime() - ticket.getStartTime();
     const auto totalFloorDiscount = (std::abs(place.getFloor()) - 1) * _floorDiscount;
+    const auto vehicleCoefficient = getVelicheCoefficient(place.getVehicleType());
     
-    size_t totalPrice = std::round(durationTime * _priceBaseСoefficient * _disabledPersonDiscountCoef - totalFloorDiscount);
+    size_t totalPrice = std::round(durationTime * _priceBaseСoefficient * _disabledPersonDiscountCoef * vehicleCoefficient - totalFloorDiscount);
     
     return totalPrice;
 }

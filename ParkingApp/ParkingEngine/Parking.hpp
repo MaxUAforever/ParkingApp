@@ -8,12 +8,12 @@
 #include <boost/variant.hpp>
 
 #include "Barrier.hpp"
-#include "Car.hpp"
+#include "Vehicle.hpp"
 #include "IBarrierObserver.hpp"
 #include "PaymentManager.hpp"
 #include "ParkingPlace.hpp"
 #include "ParkingPlacesManager.hpp"
-#include "Ticket.hpp"
+#include "SessionInfo.hpp"
 
 namespace ParkingEngine
 {
@@ -26,10 +26,10 @@ enum class AccessErrorCode : std::uint8_t
     DuplicateCarNumber
 };
 
-using AccessResult = boost::variant<Ticket, AccessErrorCode>;
+using AccessResult = boost::variant<SessionInfo, AccessErrorCode>;
 
-using Cars = std::unordered_map<CarRegNumber, Car>;
-using Tickets = std::unordered_map<CarRegNumber, Ticket>;
+using Cars = std::unordered_map<CarRegNumber, Vehicle>;
+using Tickets = std::unordered_map<CarRegNumber, SessionInfo>;
 using Barriers = std::vector<Barrier>;
 
 class Parking : public IBarrierObserver
@@ -37,9 +37,9 @@ class Parking : public IBarrierObserver
 public:
     Parking(size_t placesCount, size_t barriersCount);
 
-    AccessResult acceptCar(const Car& car, size_t barrierNumber);
-    AccessResult acceptCar(const Car& car, size_t barrierNumber, size_t placeNumber);
-    void releaseCar(const Car& car, size_t barrierNumber);
+    AccessResult acceptCar(const Vehicle& vehicle, size_t barrierNumber);
+    AccessResult acceptCar(const Vehicle& vehicle, size_t barrierNumber, size_t placeNumber);
+    void releaseCar(const Vehicle& vehicle, size_t barrierNumber);
 
     void onAlert(size_t barrierIndex) override;
     
@@ -48,7 +48,7 @@ public:
 private:
     void handleBarrierAlert(size_t barrierNumber);
     
-    AccessResult reservePlace(const Car& car, PlaceNumber placeNumber);
+    AccessResult reservePlace(const Vehicle& vehicle, PlaceNumber placeNumber);
     
 private:
     PaymentManager _paymentManager;

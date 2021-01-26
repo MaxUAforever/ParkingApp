@@ -1,5 +1,5 @@
-#ifndef Car_hpp
-#define Car_hpp
+#ifndef Vehicle_hpp
+#define Vehicle_hpp
 
 #include <stdio.h>
 #include <iostream>
@@ -15,19 +15,20 @@ enum class VehicleType : std::uint8_t
     Motorbyke
 };
 
-class Car
+class Vehicle
 {
 public:
-    explicit Car(int regNumber);
+    explicit Vehicle(int regNumber, VehicleType type);
     
     const CarRegNumber getRegNumber() const;
     
-    bool operator== (const Car& car) const;
+    bool operator== (const Vehicle& vehicle) const;
     
 private:
     CarRegNumber _regNumber;
+    VehicleType _type;
 };
 
 } // namespace ParkingEngine
 
-#endif /* Car_hpp */
+#endif /* Vehicle_hpp */

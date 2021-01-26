@@ -1,7 +1,7 @@
 #ifndef ParkingPlace_hpp
 #define ParkingPlace_hpp
 
-#include "Car.hpp"
+#include "Vehicle.hpp"
 
 #include <cstdint>
 #include <stdio.h>

@@ -8,9 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		5234299F25B3378F00A48661 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5234299E25B3378F00A48661 /* main.cpp */; };
-		523429B525B3404900A48661 /* Car.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 523429B325B3404900A48661 /* Car.cpp */; };
+		523429B525B3404900A48661 /* Vehicle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 523429B325B3404900A48661 /* Vehicle.cpp */; };
 		523429B925B3533000A48661 /* ParkingPlace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 523429B725B3533000A48661 /* ParkingPlace.cpp */; };
-		523429BD25B3598E00A48661 /* Ticket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 523429BB25B3598E00A48661 /* Ticket.cpp */; };
+		523429BD25B3598E00A48661 /* SessionInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 523429BB25B3598E00A48661 /* SessionInfo.cpp */; };
 		523429C225B4571E00A48661 /* Parking.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 523429C025B4571E00A48661 /* Parking.cpp */; };
 		523429D925B57E7700A48661 /* PaymentService.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 523429D725B57E7700A48661 /* PaymentService.cpp */; };
 		523429DD25B5836A00A48661 /* TimeManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 523429DB25B5836A00A48661 /* TimeManager.cpp */; };
@@ -35,12 +35,12 @@
 		5234299B25B3378F00A48661 /* ParkingApp */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ParkingApp; sourceTree = BUILT_PRODUCTS_DIR; };
 		5234299E25B3378F00A48661 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		523429B225B33FD500A48661 /* ParkingEngine */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ParkingEngine; sourceTree = "<group>"; };
-		523429B325B3404900A48661 /* Car.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Car.cpp; path = ParkingApp/ParkingEngine/Car.cpp; sourceTree = "<group>"; };
-		523429B425B3404900A48661 /* Car.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Car.hpp; path = ParkingApp/ParkingEngine/Car.hpp; sourceTree = "<group>"; };
+		523429B325B3404900A48661 /* Vehicle.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Vehicle.cpp; path = ParkingApp/ParkingEngine/Vehicle.cpp; sourceTree = "<group>"; };
+		523429B425B3404900A48661 /* Vehicle.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Vehicle.hpp; path = ParkingApp/ParkingEngine/Vehicle.hpp; sourceTree = "<group>"; };
 		523429B725B3533000A48661 /* ParkingPlace.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ParkingPlace.cpp; path = ParkingApp/ParkingEngine/ParkingPlace.cpp; sourceTree = "<group>"; };
 		523429B825B3533000A48661 /* ParkingPlace.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ParkingPlace.hpp; path = ParkingApp/ParkingEngine/ParkingPlace.hpp; sourceTree = "<group>"; };
-		523429BB25B3598E00A48661 /* Ticket.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Ticket.cpp; path = ParkingApp/ParkingEngine/Ticket.cpp; sourceTree = "<group>"; };
-		523429BC25B3598E00A48661 /* Ticket.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Ticket.hpp; path = ParkingApp/ParkingEngine/Ticket.hpp; sourceTree = "<group>"; };
+		523429BB25B3598E00A48661 /* SessionInfo.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = SessionInfo.cpp; path = ParkingApp/ParkingEngine/SessionInfo.cpp; sourceTree = "<group>"; };
+		523429BC25B3598E00A48661 /* SessionInfo.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = SessionInfo.hpp; path = ParkingApp/ParkingEngine/SessionInfo.hpp; sourceTree = "<group>"; };
 		523429C025B4571E00A48661 /* Parking.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Parking.cpp; path = ParkingApp/ParkingEngine/Parking.cpp; sourceTree = "<group>"; };
 		523429C125B4571E00A48661 /* Parking.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Parking.hpp; path = ParkingApp/ParkingEngine/Parking.hpp; sourceTree = "<group>"; };
 		523429CC25B4A22200A48661 /* Externals */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Externals; sourceTree = "<group>"; };
@@ -86,10 +86,10 @@
 				523429C025B4571E00A48661 /* Parking.cpp */,
 				523429C125B4571E00A48661 /* Parking.hpp */,
 				523429B825B3533000A48661 /* ParkingPlace.hpp */,
-				523429BB25B3598E00A48661 /* Ticket.cpp */,
-				523429BC25B3598E00A48661 /* Ticket.hpp */,
-				523429B325B3404900A48661 /* Car.cpp */,
-				523429B425B3404900A48661 /* Car.hpp */,
+				523429BB25B3598E00A48661 /* SessionInfo.cpp */,
+				523429BC25B3598E00A48661 /* SessionInfo.hpp */,
+				523429B325B3404900A48661 /* Vehicle.cpp */,
+				523429B425B3404900A48661 /* Vehicle.hpp */,
 				5234299D25B3378F00A48661 /* ParkingApp */,
 				5234299C25B3378F00A48661 /* Products */,
 			);
@@ -170,7 +170,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				523429B925B3533000A48661 /* ParkingPlace.cpp in Sources */,
-				523429B525B3404900A48661 /* Car.cpp in Sources */,
+				523429B525B3404900A48661 /* Vehicle.cpp in Sources */,
 				523429C225B4571E00A48661 /* Parking.cpp in Sources */,
 				523429E325BA583C00A48661 /* Barrier.cpp in Sources */,
 				523429E925BAE32100A48661 /* ParkingPlacesManager.cpp in Sources */,
@@ -178,7 +178,7 @@
 				523429D925B57E7700A48661 /* PaymentService.cpp in Sources */,
 				523429DD25B5836A00A48661 /* TimeManager.cpp in Sources */,
 				5268FC6C25C0184F00345856 /* PaymentManager.cpp in Sources */,
-				523429BD25B3598E00A48661 /* Ticket.cpp in Sources */,
+				523429BD25B3598E00A48661 /* SessionInfo.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
