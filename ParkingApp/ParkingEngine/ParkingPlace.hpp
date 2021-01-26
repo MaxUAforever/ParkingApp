@@ -1,18 +1,13 @@
 #ifndef ParkingPlace_hpp
 #define ParkingPlace_hpp
 
+#include "Car.hpp"
+
 #include <cstdint>
 #include <stdio.h>
 
 namespace ParkingEngine
 {
-enum class VehicleType : std::uint8_t
-{
-    Car,
-    Truck,
-    Motorbyke
-};
-
 using PlaceNumber = size_t;
 
 class ParkingPlace

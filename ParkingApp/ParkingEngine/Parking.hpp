@@ -10,12 +10,14 @@
 #include "Barrier.hpp"
 #include "Car.hpp"
 #include "IBarrierObserver.hpp"
+#include "PaymentManager.hpp"
 #include "ParkingPlace.hpp"
 #include "ParkingPlacesManager.hpp"
 #include "Ticket.hpp"
 
 namespace ParkingEngine
 {
+class PaymentManager;
 
 enum class AccessErrorCode : std::uint8_t
 {
@@ -47,6 +49,7 @@ private:
     AccessResult reservePlace(const Car& car, PlaceNumber placeNumber);
     
 private:
+    PaymentManager _paymentManager;
     ParkingPlacesManager _placesManager;
     Barriers _barriers;
     Tickets _tickets;

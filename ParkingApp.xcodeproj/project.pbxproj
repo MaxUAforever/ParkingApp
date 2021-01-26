@@ -16,6 +16,7 @@
 		523429DD25B5836A00A48661 /* TimeManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 523429DB25B5836A00A48661 /* TimeManager.cpp */; };
 		523429E325BA583C00A48661 /* Barrier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 523429E125BA583C00A48661 /* Barrier.cpp */; };
 		523429E925BAE32100A48661 /* ParkingPlacesManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 523429E725BAE32100A48661 /* ParkingPlacesManager.cpp */; };
+		5268FC6C25C0184F00345856 /* PaymentManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5268FC6A25C0184F00345856 /* PaymentManager.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -52,6 +53,8 @@
 		523429E525BA590C00A48661 /* IBarrierObserver.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IBarrierObserver.hpp; path = ParkingApp/ParkingEngine/IBarrierObserver.hpp; sourceTree = "<group>"; };
 		523429E725BAE32100A48661 /* ParkingPlacesManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ParkingPlacesManager.cpp; path = ParkingApp/ParkingEngine/ParkingPlacesManager.cpp; sourceTree = "<group>"; };
 		523429E825BAE32100A48661 /* ParkingPlacesManager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ParkingPlacesManager.hpp; path = ParkingApp/ParkingEngine/ParkingPlacesManager.hpp; sourceTree = "<group>"; };
+		5268FC6A25C0184F00345856 /* PaymentManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = PaymentManager.cpp; path = ParkingApp/ParkingEngine/PaymentManager.cpp; sourceTree = "<group>"; };
+		5268FC6B25C0184F00345856 /* PaymentManager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = PaymentManager.hpp; path = ParkingApp/ParkingEngine/PaymentManager.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +71,8 @@
 		5234299225B3378F00A48661 = {
 			isa = PBXGroup;
 			children = (
+				5268FC6A25C0184F00345856 /* PaymentManager.cpp */,
+				5268FC6B25C0184F00345856 /* PaymentManager.hpp */,
 				523429E725BAE32100A48661 /* ParkingPlacesManager.cpp */,
 				523429E825BAE32100A48661 /* ParkingPlacesManager.hpp */,
 				523429E525BA590C00A48661 /* IBarrierObserver.hpp */,
@@ -172,6 +177,7 @@
 				5234299F25B3378F00A48661 /* main.cpp in Sources */,
 				523429D925B57E7700A48661 /* PaymentService.cpp in Sources */,
 				523429DD25B5836A00A48661 /* TimeManager.cpp in Sources */,
+				5268FC6C25C0184F00345856 /* PaymentManager.cpp in Sources */,
 				523429BD25B3598E00A48661 /* Ticket.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

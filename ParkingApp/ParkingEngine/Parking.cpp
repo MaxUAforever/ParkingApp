@@ -7,6 +7,7 @@ namespace ParkingEngine
 {
 Parking::Parking(size_t placesCount, size_t barriersCount)
     : _placesManager(placesCount)
+    , _paymentManager(100, 0.8, 10)
 {
     _barriers.reserve(barriersCount);
     for (auto i = 1; i <= barriersCount; ++i)
@@ -14,6 +15,9 @@ Parking::Parking(size_t placesCount, size_t barriersCount)
         _barriers.emplace_back(i);
         _barriers.back().registerObserver(this);
     }
+    
+    _paymentManager.setVelicheCoefficient(VehicleType::Motorbyke, 0.5);
+    _paymentManager.setVelicheCoefficient(VehicleType::Truck, 2);
 }
 
 AccessResult Parking::reservePlace(const Car& car, PlaceNumber placeNumber)
@@ -70,8 +74,7 @@ void Parking::releaseCar(const Car& car, size_t barrierNumber)
     const auto& ticket = ticketIt->second;
     if (const auto& place = _placesManager.getPlace(ticket.getPlaceNumber()))
     {
-        const auto durationTime = TimeManager::getCurrentTime() - ticket.getStartTime();
-        const auto price = 10 * durationTime;
+        const auto price = _paymentManager.getTotalPrice(ticket, *place);
         
         if (PaymentService::getPayment(price))
         {

@@ -8,6 +8,13 @@ namespace ParkingEngine
 {
 using CarRegNumber = int;
 
+enum class VehicleType : std::uint8_t
+{
+    Car,
+    Truck,
+    Motorbyke
+};
+
 class Car
 {
 public:
