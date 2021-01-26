@@ -11,7 +11,22 @@ void Barrier::registerObserver(IBarrierObserver* observer)
 
 bool Barrier::open()
 {
+    static int crashCount = 0;
+    
+    if (crashCount++ == 3)
+    {
+        alert();
+        crashCount = 0;
+        
+        return false;
+    }
+    
     return true;
+}
+
+void Barrier::callAlert()
+{
+    alert();
 }
 
 void Barrier::alert()

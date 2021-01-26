@@ -34,8 +34,8 @@ AccessResult Parking::reservePlace(const Car& car, PlaceNumber placeNumber)
     }
     
     const auto ticket = Ticket(car.getRegNumber(), placeNumber, TimeManager::getCurrentTime());
-    _tickets.insert({car.getRegNumber(), ticket}); // -> emplace
-    _cars.insert({car.getRegNumber(), car});
+    _tickets.emplace(car.getRegNumber(), ticket);
+    _cars.emplace(car.getRegNumber(), car);
     
     return _tickets.at(car.getRegNumber());
 }
@@ -87,12 +87,17 @@ void Parking::releaseCar(const Car& car, size_t barrierNumber)
         }
     }
     
-    onAlert(barrierNumber);
+    handleBarrierAlert(barrierNumber);
 }
 
-void Parking::onAlert(size_t barrierIndex)
+void Parking::onAlert(size_t barrierNumber)
 {
-    std::cout << "Operator is needed on " << barrierIndex << " barrier.\n";
+    handleBarrierAlert(barrierNumber);
+}
+
+void handleBarrierAlert(size_t barrierNumber)
+{
+    std::cout << "Operator is needed on " << barrierNumber << " barrier.\n";
     return;
 }
 

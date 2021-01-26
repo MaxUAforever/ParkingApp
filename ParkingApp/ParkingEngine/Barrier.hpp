@@ -14,6 +14,9 @@ public:
     void registerObserver(IBarrierObserver* observer);
     
     bool open();
+    void callAlert();
+    
+private:
     void alert();
     
 private:

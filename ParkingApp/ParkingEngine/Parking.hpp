@@ -46,6 +46,8 @@ public:
     std::vector<PlaceNumber> getFreePlacesList() const;
     
 private:
+    void handleBarrierAlert(size_t barrierNumber);
+    
     AccessResult reservePlace(const Car& car, PlaceNumber placeNumber);
     
 private:
