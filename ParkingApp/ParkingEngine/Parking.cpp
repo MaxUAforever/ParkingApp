@@ -2,6 +2,8 @@
 
 #include "PaymentService.hpp"
 #include "TimeManager.hpp"
+#include "VelichesRegisterService.hpp"
+#include "EntryKeyGenerator.hpp"
 
 namespace ParkingEngine
 {
@@ -20,10 +22,10 @@ Parking::Parking(size_t placesCount, size_t barriersCount)
     _paymentManager.setVelicheCoefficient(VehicleType::Truck, 2);
 }
 
-AccessResult Parking::reservePlace(const Vehicle& vehicle, PlaceNumber placeNumber)
+AccessResult Parking::reservePlace(EntryKeyID keyID, const Vehicle& vehicle, PlaceNumber placeNumber)
 {
-    auto ticketIt = _tickets.find(vehicle.getRegNumber());
-    if (ticketIt != _tickets.end())
+    auto sessionIt = _sessions.find(keyID);
+    if (sessionIt != _sessions.end())
     {
         return AccessErrorCode::DuplicateCarNumber;
     }
@@ -33,57 +35,105 @@ AccessResult Parking::reservePlace(const Vehicle& vehicle, PlaceNumber placeNumb
         return AccessErrorCode::NotEmptyPlace;
     }
     
-    const auto ticket = SessionInfo(vehicle.getRegNumber(), placeNumber, TimeManager::getCurrentTime());
-    _tickets.emplace(vehicle.getRegNumber(), ticket);
-    _cars.emplace(vehicle.getRegNumber(), vehicle);
+    auto session = SessionInfo(vehicle.getRegNumber(), placeNumber, TimeManager::getCurrentTime());
     
-    return _tickets.at(vehicle.getRegNumber());
+    _sessions.emplace(keyID, std::move(session));
+    _vehicles.emplace(keyID, vehicle);
+    
+    return Ticket(keyID, placeNumber);
 }
 
-AccessResult Parking::acceptCar(const Vehicle& vehicle, size_t barrierNumber)
+AccessResult Parking::acceptVehicle(const Vehicle& vehicle, size_t barrierNumber, boost::optional<EntryKeyID> clientID)
 {
-    if (_placesManager.isParkingFull())
+    const auto keyID = clientID ? *clientID : EntryKeyGenerator::generateKey();
+    
+    const auto& freeSuitablePlaces = _placesManager.getFreePlacesList(vehicle.getType());
+    if (freeSuitablePlaces.empty())
     {
         return AccessErrorCode::FullParking;
     }
     
-    return reservePlace(vehicle, _placesManager.getFreePlacesList().at(0));
+    return reservePlace(keyID, vehicle, freeSuitablePlaces.at(0));
 }
 
-AccessResult Parking::acceptCar(const Vehicle& vehicle, size_t barrierNumber, size_t placeNumber)
+AccessResult Parking::acceptVehicle(const Vehicle& vehicle, size_t barrierNumber, size_t placeNumber, boost::optional<EntryKeyID> clientID)
 {
+    const auto keyID = clientID ? *clientID : EntryKeyGenerator::generateKey();
+    
     if (_placesManager.isParkingFull())
     {
         return AccessErrorCode::FullParking;
     }
 
-    return reservePlace(vehicle, placeNumber);
+    const auto& place = _placesManager.getPlace(placeNumber);
+    if (!place)
+    {
+        return AccessErrorCode::WrongPlaceNumber;
+    }
+    
+    if (place->isForDisabledPerson())
+    {
+        auto isVehicleForDisabled = Externals::VelichesRegisterService::checkIsVehicleForDisabled(vehicle.getRegNumber());
+        
+        if (!isVehicleForDisabled)
+        {
+            handleBarrierAlert(barrierNumber);
+            
+            return AccessErrorCode::NotAvailableVelRegService;
+        }
+        if (!*isVehicleForDisabled)
+        {
+            return AccessErrorCode::NotDisabledVehicle;
+        }
+    }
+    
+    if (place->getVehicleType() != vehicle.getType())
+    {
+        return AccessErrorCode::WrongVehicleType;
+    }
+    
+    return reservePlace(keyID, vehicle, placeNumber);
 }
 
-void Parking::releaseCar(const Vehicle& vehicle, size_t barrierNumber)
+bool Parking::acceptStaff(EntryKeyID keyID, size_t barrierNumber)
 {
-    auto ticketIt = _tickets.find(vehicle.getRegNumber());
-    auto carIt = _cars.find(vehicle.getRegNumber());
+    if (_staffManager.getStaff(keyID))
+    {
+        _barriers[barrierNumber].open();
+        return true;
+    }
+    
+    return false;
+}
+
+void Parking::releaseVehicle(EntryKeyID keyID, const Vehicle& vehicle, size_t barrierNumber)
+{
+    auto sessionIt = _sessions.find(keyID);
+    auto vehicleIt = _vehicles.find(keyID);
                             
-    if (ticketIt == _tickets.end() || carIt == _cars.end())
+    if (sessionIt == _sessions.end() || vehicleIt == _vehicles.end())
     {
         onAlert(barrierNumber);
         return;
     }
     
-    const auto& ticket = ticketIt->second;
-    if (const auto& place = _placesManager.getPlace(ticket.getPlaceNumber()))
+    const auto& session = sessionIt->second;
+    if (const auto& place = _placesManager.getPlace(session.getPlaceNumber()))
     {
-        const auto price = _paymentManager.getTotalPrice(ticket, *place);
+        const auto price = _paymentManager.getTotalPrice(session, *place);
         
         if (PaymentService::getPayment(price))
         {
-            _placesManager.releasePlace(ticket.getPlaceNumber());
-            _tickets.erase(ticketIt);
-            _cars.erase(carIt);
+            _placesManager.releasePlace(session.getPlaceNumber());
+            _sessions.erase(sessionIt);
+            _vehicles.erase(vehicleIt);
             
-            _barriers.at(barrierNumber).open();
-            return;
+            _clientsManager.addDiscount(keyID, TimeManager::getCurrentTime() - session.getStartTime());
+            
+            if (_barriers.at(barrierNumber).open())
+            {
+                return;
+            }
         }
     }
     

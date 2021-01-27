@@ -6,13 +6,13 @@
 namespace ParkingEngine
 {
 
-SessionInfo::SessionInfo(CarRegNumber carRegNumber, PlaceNumber placeNumber, size_t startTime)
+SessionInfo::SessionInfo(VehicleRegNumber carRegNumber, PlaceNumber placeNumber, size_t startTime)
     : _carRegNumber(carRegNumber)
     , _placeNumber(placeNumber)
     , _startTime(startTime)
 {}
 
-CarRegNumber SessionInfo::getCarRegNumber() const
+VehicleRegNumber SessionInfo::getVehicleRegNumber() const
 {
     return _carRegNumber;
 }
@@ -27,10 +27,10 @@ size_t SessionInfo::getStartTime() const
     return _startTime;
 }
 
-bool SessionInfo::operator== (const SessionInfo& ticket) const
+bool SessionInfo::operator== (const SessionInfo& session) const
 {
     return std::tie(_startTime, _placeNumber, _carRegNumber) ==
-           std::tie(ticket._startTime, ticket._placeNumber, ticket._carRegNumber);
+           std::tie(session._startTime, session._placeNumber, session._carRegNumber);
 }
 
 } // namespace ParkingEngine

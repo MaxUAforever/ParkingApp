@@ -3,15 +3,20 @@
 namespace ParkingEngine
 {
 
-Vehicle::Vehicle(int regNumber, VehicleType type)
+Vehicle::Vehicle(VehicleRegNumber regNumber, VehicleType type)
     : _regNumber(regNumber)
     , _type(type)
 {
 }
-    
-const CarRegNumber Vehicle::getRegNumber() const
+
+VehicleRegNumber Vehicle::getRegNumber() const
 {
     return _regNumber;
+}
+
+VehicleType Vehicle::getType() const
+{
+    return _type;
 }
 
 bool Vehicle::operator== (const Vehicle& vehicle) const

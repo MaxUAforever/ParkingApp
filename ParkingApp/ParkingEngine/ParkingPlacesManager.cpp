@@ -76,13 +76,40 @@ bool ParkingPlacesManager::isParkingFull() const
 
 std::vector<PlaceNumber> ParkingPlacesManager::getFreePlacesList() const
 {
+    return getFreePlacesListByParam([](const ParkingPlace&)
+                                {
+                                    return true;
+                                });
+}
+
+std::vector<PlaceNumber> ParkingPlacesManager::getFreePlacesList(VehicleType vehicleType) const
+{
+    return getFreePlacesListByParam([&](const ParkingPlace& place)
+                                {
+                                    return place.getVehicleType() == vehicleType;
+                                });
+}
+
+std::vector<PlaceNumber> ParkingPlacesManager::getFreePlacesList(bool isForDisabledPerson) const
+{
+    return getFreePlacesListByParam([&](const ParkingPlace& place)
+                                {
+                                    return place.isForDisabledPerson() == isForDisabledPerson;
+                                });
+}
+
+std::vector<PlaceNumber> ParkingPlacesManager::getFreePlacesListByParam(IsPlaceSuitableFunc isSuitableFunc) const
+{
     std::vector<PlaceNumber> freePlacesIndexes;
     
     for (const auto& placeInfo : _freePlaces)
     {
         const auto& place = placeInfo.second;
         
-        freePlacesIndexes.push_back(place.getNumber());
+        if (isSuitableFunc(place))
+        {
+            freePlacesIndexes.emplace_back(place.getNumber());
+        }
     }
     
     return freePlacesIndexes;

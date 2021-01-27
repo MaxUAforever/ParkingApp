@@ -17,9 +17,9 @@ PaymentManager::PaymentManager(double priceBaseСoefficient,
     , _floorDiscount(floorDiscount)
 {}
 
-size_t PaymentManager::getTotalPrice(const SessionInfo& ticket, const ParkingPlace& place)
+size_t PaymentManager::getTotalPrice(const SessionInfo& session, const ParkingPlace& place)
 {
-    const auto durationTime = TimeManager::getCurrentTime() - ticket.getStartTime();
+    const auto durationTime = TimeManager::getCurrentTime() - session.getStartTime();
     const auto totalFloorDiscount = (std::abs(place.getFloor()) - 1) * _floorDiscount;
     const auto vehicleCoefficient = getVelicheCoefficient(place.getVehicleType());
     

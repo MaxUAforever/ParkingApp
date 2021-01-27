@@ -18,7 +18,7 @@ public:
                    double disabledPersonDiscountCoef,
                    size_t floorDiscount);
     
-    size_t getTotalPrice(const SessionInfo& ticket, const ParkingPlace& place);
+    size_t getTotalPrice(const SessionInfo& session, const ParkingPlace& place);
     
     size_t getPriceBaseСoefficient() const;
     void setPriceBaseСoefficient(size_t priceBaseСoefficient);

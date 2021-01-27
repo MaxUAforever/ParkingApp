@@ -3,10 +3,11 @@
 
 #include <stdio.h>
 #include <iostream>
+#include <string>
 
 namespace ParkingEngine
 {
-using CarRegNumber = int;
+using VehicleRegNumber = std::string;
 
 enum class VehicleType : std::uint8_t
 {
@@ -18,14 +19,15 @@ enum class VehicleType : std::uint8_t
 class Vehicle
 {
 public:
-    explicit Vehicle(int regNumber, VehicleType type);
+    explicit Vehicle(VehicleRegNumber regNumber, VehicleType type);
     
-    const CarRegNumber getRegNumber() const;
+    VehicleRegNumber getRegNumber() const;
+    VehicleType getType() const;
     
     bool operator== (const Vehicle& vehicle) const;
     
 private:
-    CarRegNumber _regNumber;
+    VehicleRegNumber _regNumber;
     VehicleType _type;
 };
 

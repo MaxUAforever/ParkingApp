@@ -12,16 +12,16 @@ namespace ParkingEngine
 class SessionInfo
 {
 public:
-    SessionInfo(CarRegNumber carRegNumber, PlaceNumber placeNumber, size_t startTime);
+    SessionInfo(VehicleRegNumber carRegNumber, PlaceNumber placeNumber, size_t startTime);
 
-    CarRegNumber getCarRegNumber() const;
+    VehicleRegNumber getVehicleRegNumber() const;
     PlaceNumber getPlaceNumber() const;
     size_t getStartTime() const;
 
-    bool operator== (const SessionInfo& ticket) const;
+    bool operator== (const SessionInfo& session) const;
     
 private:
-    CarRegNumber _carRegNumber;
+    VehicleRegNumber _carRegNumber;
     PlaceNumber _placeNumber;
     size_t _startTime;
 };

@@ -13,7 +13,7 @@ using PlaceNumber = size_t;
 class ParkingPlace
 {
 public:
-    explicit ParkingPlace(PlaceNumber number, int floor = 1, bool isForDisabled = false, VehicleType vehicleType = VehicleType::Car);
+    explicit ParkingPlace(PlaceNumber number, int floor = 0, bool isForDisabledPerson = false, VehicleType vehicleType = VehicleType::Car);
     
     PlaceNumber getNumber() const;
     void setNumber(PlaceNumber number);
@@ -21,8 +21,8 @@ public:
     int getFloor() const;
     void setFloor(int floor);
     
-    bool isForDisabled() const;
-    void setIsForDisabled(bool isForDisabled);
+    bool isForDisabledPerson() const;
+    void setIsForDisabledPerson(bool isForDisabledPerson);
     
     VehicleType getVehicleType() const;
     void setVehicleType(VehicleType vehicleType);
@@ -32,9 +32,9 @@ public:
     
 private:
     PlaceNumber _number;
-    int _floor;
-    bool _isForDisabled;
     VehicleType _vehicleType;
+    bool _isForDisabledPerson;
+    int _floor;
 };
 
 } // namespace ParkingEngine
