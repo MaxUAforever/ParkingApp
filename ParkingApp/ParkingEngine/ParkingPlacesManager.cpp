@@ -115,4 +115,9 @@ std::vector<PlaceNumber> ParkingPlacesManager::getFreePlacesListByParam(IsPlaceS
     return freePlacesIndexes;
 }
 
+void ParkingPlacesManager::onSuccessRelease(SessionInfo session)
+{
+    releasePlace(session.getPlaceNumber());
+}
+
 } // namespace ParkingEngine

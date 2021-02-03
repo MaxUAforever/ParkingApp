@@ -1,6 +1,6 @@
 #include "VelichesRegisterService.hpp"
 
-namespace Externals
+namespace ParkingEngine
 {
 
 boost::optional<bool> VelichesRegisterService::checkIsVehicleForDisabled(std::string regNumber)
@@ -19,4 +19,4 @@ boost::optional<bool> VelichesRegisterService::checkIsVehicleForDisabled(std::st
     return true;
 }
 
-} // namespace Externals
+} // namespace ParkingEngine

@@ -5,7 +5,7 @@
 #include <string>
 #include <boost/optional.hpp>
 
-namespace Externals
+namespace ParkingEngine
 {
 
 class VelichesRegisterService
@@ -14,5 +14,6 @@ public:
     static boost::optional<bool> checkIsVehicleForDisabled(std::string regNumber);
 };
 
-} // namespace Externals
+} // namespace ParkingEngine
+
 #endif /* VelichesRegisterService_hpp */

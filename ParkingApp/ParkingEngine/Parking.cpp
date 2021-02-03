@@ -1,44 +1,50 @@
 #include "Parking.hpp"
 
-#include "PaymentService.hpp"
 #include "TimeManager.hpp"
 #include "VelichesRegisterService.hpp"
 #include "EntryKeyGenerator.hpp"
 
 namespace ParkingEngine
 {
-Parking::Parking(size_t placesCount, size_t barriersCount)
-    : _placesManager(placesCount)
-    , _paymentManager(100, 0.8, 10)
+Parking::Parking(std::unique_ptr<IPaymentManager> paymentManager,
+                 std::unique_ptr<IParkingPlacesManager> placesManager,
+                 std::unique_ptr<IClientsManager> clientsManager,
+                 std::unique_ptr<IStaffManager> staffManager,
+                 std::unique_ptr<IBarriersManager> barriersManager,
+                 std::unique_ptr<ISessionsManager> sessionsManager)
+    : _paymentManager(std::move(paymentManager))
+    , _placesManager(std::move(placesManager))
+    , _clientsManager(std::move(clientsManager))
+    , _staffManager(std::move(staffManager))
+    , _barriersManager(std::move(barriersManager))
+    , _sessionsManager(std::move(sessionsManager))
 {
-    _barriers.reserve(barriersCount);
-    for (auto i = 1; i <= barriersCount; ++i)
-    {
-        _barriers.emplace_back(i);
-        _barriers.back().registerObserver(this);
-    }
+    _barriersManager->registerBarriersObserver(this);
     
-    _paymentManager.setVelicheCoefficient(VehicleType::Motorbyke, 0.5);
-    _paymentManager.setVelicheCoefficient(VehicleType::Truck, 2);
+    _paymentManager->setVelicheCoefficient(VehicleType::Motorbyke, 0.5);
+    _paymentManager->setVelicheCoefficient(VehicleType::Truck, 2);
+    
+    _sessionsManager->registerObserver(&*_placesManager);
+    _sessionsManager->registerObserver(&*_clientsManager);
+    _sessionsManager->registerObserver(&*_vehiclesManager);
 }
 
 AccessResult Parking::reservePlace(EntryKeyID keyID, const Vehicle& vehicle, PlaceNumber placeNumber)
 {
-    auto sessionIt = _sessions.find(keyID);
-    if (sessionIt != _sessions.end())
+    if (_sessionsManager->getSession(keyID))
     {
         return AccessErrorCode::DuplicateCarNumber;
     }
     
-    if (!_placesManager.reservePlace(placeNumber))
+    if (!_placesManager->reservePlace(placeNumber))
     {
         return AccessErrorCode::NotEmptyPlace;
     }
     
-    auto session = SessionInfo(vehicle.getRegNumber(), placeNumber, TimeManager::getCurrentTime());
+    auto session = SessionInfo(keyID, vehicle.getRegNumber(), placeNumber, TimeManager::getCurrentTime());
     
-    _sessions.emplace(keyID, std::move(session));
-    _vehicles.emplace(keyID, vehicle);
+    _sessionsManager->addSession(keyID, std::move(session));
+    _vehiclesManager->addVehicle(keyID, vehicle);
     
     return Ticket(keyID, placeNumber);
 }
@@ -47,7 +53,7 @@ AccessResult Parking::acceptVehicle(const Vehicle& vehicle, size_t barrierNumber
 {
     const auto keyID = clientID ? *clientID : EntryKeyGenerator::generateKey();
     
-    const auto& freeSuitablePlaces = _placesManager.getFreePlacesList(vehicle.getType());
+    const auto& freeSuitablePlaces = _placesManager->getFreePlacesList(vehicle.getType());
     if (freeSuitablePlaces.empty())
     {
         return AccessErrorCode::FullParking;
@@ -60,12 +66,12 @@ AccessResult Parking::acceptVehicle(const Vehicle& vehicle, size_t barrierNumber
 {
     const auto keyID = clientID ? *clientID : EntryKeyGenerator::generateKey();
     
-    if (_placesManager.isParkingFull())
+    if (_placesManager->isParkingFull())
     {
         return AccessErrorCode::FullParking;
     }
 
-    const auto& place = _placesManager.getPlace(placeNumber);
+    const auto& place = _placesManager->getPlace(placeNumber);
     if (!place)
     {
         return AccessErrorCode::WrongPlaceNumber;
@@ -73,7 +79,7 @@ AccessResult Parking::acceptVehicle(const Vehicle& vehicle, size_t barrierNumber
     
     if (place->isForDisabledPerson())
     {
-        auto isVehicleForDisabled = Externals::VelichesRegisterService::checkIsVehicleForDisabled(vehicle.getRegNumber());
+        auto isVehicleForDisabled = VelichesRegisterService::checkIsVehicleForDisabled(vehicle.getRegNumber());
         
         if (!isVehicleForDisabled)
         {
@@ -97,9 +103,9 @@ AccessResult Parking::acceptVehicle(const Vehicle& vehicle, size_t barrierNumber
 
 bool Parking::acceptStaff(EntryKeyID keyID, size_t barrierNumber)
 {
-    if (_staffManager.getStaff(keyID))
+    if (_staffManager->getStaff(keyID))
     {
-        _barriers[barrierNumber].open();
+        _barriersManager->openBarrier(barrierNumber);
         return true;
     }
     
@@ -108,36 +114,34 @@ bool Parking::acceptStaff(EntryKeyID keyID, size_t barrierNumber)
 
 void Parking::releaseVehicle(EntryKeyID keyID, const Vehicle& vehicle, size_t barrierNumber)
 {
-    auto sessionIt = _sessions.find(keyID);
-    auto vehicleIt = _vehicles.find(keyID);
-                            
-    if (sessionIt == _sessions.end() || vehicleIt == _vehicles.end())
+    auto session = _sessionsManager->getSession(keyID);
+    if (!session)
     {
-        onAlert(barrierNumber);
+        handleBarrierAlert(barrierNumber);
         return;
     }
     
-    const auto& session = sessionIt->second;
-    if (const auto& place = _placesManager.getPlace(session.getPlaceNumber()))
+    const auto& place = _placesManager->getPlace(session->getPlaceNumber());
+    if (!place)
     {
-        const auto price = _paymentManager.getTotalPrice(session, *place);
-        
-        if (PaymentService::getPayment(price))
-        {
-            _placesManager.releasePlace(session.getPlaceNumber());
-            _sessions.erase(sessionIt);
-            _vehicles.erase(vehicleIt);
-            
-            _clientsManager.addDiscount(keyID, TimeManager::getCurrentTime() - session.getStartTime());
-            
-            if (_barriers.at(barrierNumber).open())
-            {
-                return;
-            }
-        }
+        handleBarrierAlert(barrierNumber);
+        return;
     }
     
-    handleBarrierAlert(barrierNumber);
+    const auto price = _paymentManager->getTotalPrice(*session, *place);
+    if (!_paymentService.getPayment(price))
+    {
+        handleBarrierAlert(barrierNumber);
+        return;
+    }
+    
+    _sessionsManager->removeSession(keyID);
+   
+    if (!_barriersManager->openBarrier(barrierNumber))
+    {
+        handleBarrierAlert(barrierNumber);
+        return;
+    }
 }
 
 void Parking::onAlert(size_t barrierNumber)
@@ -153,7 +157,7 @@ void Parking::handleBarrierAlert(size_t barrierNumber)
 
 std::vector<PlaceNumber> Parking::getFreePlacesList() const
 {
-    return _placesManager.getFreePlacesList();
+    return _placesManager->getFreePlacesList();
 }
 
 } // namespace ParkingEngine

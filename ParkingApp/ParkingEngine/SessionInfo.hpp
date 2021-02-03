@@ -5,6 +5,7 @@
 
 #include "Vehicle.hpp"
 #include "ParkingPlace.hpp"
+#include "EntryKeyGenerator.hpp"
 
 namespace ParkingEngine
 {
@@ -12,8 +13,9 @@ namespace ParkingEngine
 class SessionInfo
 {
 public:
-    SessionInfo(VehicleRegNumber carRegNumber, PlaceNumber placeNumber, size_t startTime);
+    SessionInfo(EntryKeyID keyID, VehicleRegNumber carRegNumber, PlaceNumber placeNumber, size_t startTime);
 
+    EntryKeyID getKeyID() const;
     VehicleRegNumber getVehicleRegNumber() const;
     PlaceNumber getPlaceNumber() const;
     size_t getStartTime() const;
@@ -21,6 +23,7 @@ public:
     bool operator== (const SessionInfo& session) const;
     
 private:
+    EntryKeyID _keyID;
     VehicleRegNumber _carRegNumber;
     PlaceNumber _placeNumber;
     size_t _startTime;

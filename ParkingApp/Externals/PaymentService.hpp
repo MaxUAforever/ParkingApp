@@ -2,11 +2,18 @@
 #define PaymentService_hpp
 
 #include <stdio.h>
+#include <vector>
+
+namespace ParkingEngine
+{
 
 class PaymentService
 {
 public:
-    static bool getPayment(size_t amount);
+    bool getPayment(size_t amount);
+    
 };
+
+} // namespace ParkingEngine
 
 #endif /* PaymentService_hpp */

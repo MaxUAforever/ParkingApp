@@ -4,6 +4,14 @@
 #include "ParkingEngine/Parking.hpp"
 #include "ParkingEngine/SessionInfo.hpp"
 
+// TODO: move to factory
+#include "ParkingEngine/BarriersManager.hpp"
+#include "ParkingEngine/ClientsManager.hpp"
+#include "ParkingEngine/PaymentManager.hpp"
+#include "ParkingEngine/ParkingPlacesManager.hpp"
+#include "ParkingEngine/SessionsManager.hpp"
+#include "ParkingEngine/StaffManager.hpp"
+
 #include <boost/optional.hpp>
 
 using namespace ParkingEngine;
@@ -74,13 +82,30 @@ void printFreePlaces(const Parking& parking)
     std::cout << std::endl;
 }
 
+Parking parkingInit()
+{
+    auto paymentManager = std::make_unique<PaymentManager>(100, 0.8, 10);
+    auto placesManager = std::make_unique<ParkingPlacesManager>(2);
+    auto clientsManager = std::make_unique<ClientsManager>();
+    auto staffManager = std::make_unique<StaffManager>();
+    auto barriersManager = std::make_unique<BarriersManager>(5);
+    auto sessionsManager = std::make_unique<SessionsManager>();
+    
+    return Parking(std::move(paymentManager),
+                   std::move(placesManager),
+                   std::move(clientsManager),
+                   std::move(staffManager),
+                   std::move(barriersManager),
+                   std::move(sessionsManager));
+}
+
 int main(int argc, const char * argv[])
 {
     Vehicle car1("C065MK", VehicleType::Car);
     Vehicle car2("C404OC", VehicleType::Car);
     Vehicle car3("A134AA", VehicleType::Car);
     
-    Parking parking(2, 1);
+    auto parking = parkingInit();
     
     printFreePlaces(parking);
     std::cout << std::endl;

@@ -1,4 +1,5 @@
 #include "ClientsManager.hpp"
+#include "TimeManager.hpp"
 
 namespace ParkingEngine
 {
@@ -35,6 +36,11 @@ bool ClientsManager::addDiscount(EntryKeyID clientID, size_t durationTime)
     }
     
     return false;
+}
+
+void ClientsManager::onSuccessRelease(SessionInfo session)
+{
+    addDiscount(session.getKeyID(), TimeManager::getCurrentTime() - session.getStartTime());
 }
 
 } // namespace ParkingEngine

@@ -6,11 +6,17 @@
 namespace ParkingEngine
 {
 
-SessionInfo::SessionInfo(VehicleRegNumber carRegNumber, PlaceNumber placeNumber, size_t startTime)
-    : _carRegNumber(carRegNumber)
+SessionInfo::SessionInfo(EntryKeyID keyID, VehicleRegNumber carRegNumber, PlaceNumber placeNumber, size_t startTime)
+    : _keyID(keyID)
+    , _carRegNumber(carRegNumber)
     , _placeNumber(placeNumber)
     , _startTime(startTime)
 {}
+
+EntryKeyID SessionInfo::getKeyID() const
+{
+    return _keyID;
+}
 
 VehicleRegNumber SessionInfo::getVehicleRegNumber() const
 {

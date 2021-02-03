@@ -5,16 +5,16 @@
 #include <stdio.h>
 #include <unordered_map>
 
-#include "Staff.hpp"
+#include "IStaffManager.hpp"
 
 namespace ParkingEngine
 {
 
-class StaffManager
+class StaffManager : public IStaffManager
 {
 public:
-    boost::optional<const Staff&> getStaff(EntryKeyID keyID) const;
-    void addStaff(std::string name);
+    boost::optional<const Staff&> getStaff(EntryKeyID keyID) const override;
+    void addStaff(std::string name) override;
     
 private:
     std::unordered_map<EntryKeyID, Staff> _staffs;

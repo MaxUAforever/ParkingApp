@@ -16,6 +16,9 @@
 		523429DD25B5836A00A48661 /* TimeManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 523429DB25B5836A00A48661 /* TimeManager.cpp */; };
 		523429E325BA583C00A48661 /* Barrier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 523429E125BA583C00A48661 /* Barrier.cpp */; };
 		523429E925BAE32100A48661 /* ParkingPlacesManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 523429E725BAE32100A48661 /* ParkingPlacesManager.cpp */; };
+		525C287D25C97644007F0FC0 /* BarriersManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 525C287B25C97644007F0FC0 /* BarriersManager.cpp */; };
+		525C288325C98E24007F0FC0 /* SessionsManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 525C288125C98E24007F0FC0 /* SessionsManager.cpp */; };
+		525C289025CA7A0C007F0FC0 /* VehiclesManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 525C288E25CA7A0C007F0FC0 /* VehiclesManager.cpp */; };
 		5263E23C25C1891F008FFCF0 /* ClientsManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5263E23A25C1891F008FFCF0 /* ClientsManager.cpp */; };
 		5263E24525C19057008FFCF0 /* EntryKeyGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5263E24325C19057008FFCF0 /* EntryKeyGenerator.cpp */; };
 		5263E24925C192E6008FFCF0 /* StaffManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5263E24725C192E6008FFCF0 /* StaffManager.cpp */; };
@@ -60,6 +63,19 @@
 		523429E525BA590C00A48661 /* IBarrierObserver.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IBarrierObserver.hpp; path = ParkingApp/ParkingEngine/IBarrierObserver.hpp; sourceTree = "<group>"; };
 		523429E725BAE32100A48661 /* ParkingPlacesManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ParkingPlacesManager.cpp; path = ParkingApp/ParkingEngine/ParkingPlacesManager.cpp; sourceTree = "<group>"; };
 		523429E825BAE32100A48661 /* ParkingPlacesManager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ParkingPlacesManager.hpp; path = ParkingApp/ParkingEngine/ParkingPlacesManager.hpp; sourceTree = "<group>"; };
+		525C287325C8D78D007F0FC0 /* IPaymentManager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IPaymentManager.hpp; path = ParkingApp/ParkingEngine/IPaymentManager.hpp; sourceTree = "<group>"; };
+		525C287525C8E0F6007F0FC0 /* IParkingPlacesManager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IParkingPlacesManager.hpp; path = ParkingApp/ParkingEngine/IParkingPlacesManager.hpp; sourceTree = "<group>"; };
+		525C287725C97006007F0FC0 /* IClientsManager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IClientsManager.hpp; path = ParkingApp/ParkingEngine/IClientsManager.hpp; sourceTree = "<group>"; };
+		525C287925C9731F007F0FC0 /* IStaffManager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IStaffManager.hpp; path = ParkingApp/ParkingEngine/IStaffManager.hpp; sourceTree = "<group>"; };
+		525C287B25C97644007F0FC0 /* BarriersManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = BarriersManager.cpp; path = ParkingApp/ParkingEngine/BarriersManager.cpp; sourceTree = "<group>"; };
+		525C287C25C97644007F0FC0 /* BarriersManager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = BarriersManager.hpp; path = ParkingApp/ParkingEngine/BarriersManager.hpp; sourceTree = "<group>"; };
+		525C287F25C97847007F0FC0 /* IBarriersManager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IBarriersManager.hpp; path = ParkingApp/ParkingEngine/IBarriersManager.hpp; sourceTree = "<group>"; };
+		525C288125C98E24007F0FC0 /* SessionsManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = SessionsManager.cpp; path = ParkingApp/ParkingEngine/SessionsManager.cpp; sourceTree = "<group>"; };
+		525C288225C98E24007F0FC0 /* SessionsManager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = SessionsManager.hpp; path = ParkingApp/ParkingEngine/SessionsManager.hpp; sourceTree = "<group>"; };
+		525C288525C9936B007F0FC0 /* ISessionsManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ISessionsManager.h; path = ParkingApp/ParkingEngine/ISessionsManager.h; sourceTree = "<group>"; };
+		525C288C25CA7374007F0FC0 /* ISessionObserver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ISessionObserver.h; path = ParkingApp/ParkingEngine/ISessionObserver.h; sourceTree = "<group>"; };
+		525C288E25CA7A0C007F0FC0 /* VehiclesManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = VehiclesManager.cpp; path = ParkingApp/ParkingEngine/VehiclesManager.cpp; sourceTree = "<group>"; };
+		525C288F25CA7A0C007F0FC0 /* VehiclesManager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = VehiclesManager.hpp; path = ParkingApp/ParkingEngine/VehiclesManager.hpp; sourceTree = "<group>"; };
 		5263E23A25C1891F008FFCF0 /* ClientsManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ClientsManager.cpp; path = ParkingApp/ParkingEngine/ClientsManager.cpp; sourceTree = "<group>"; };
 		5263E23B25C1891F008FFCF0 /* ClientsManager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ClientsManager.hpp; path = ParkingApp/ParkingEngine/ClientsManager.hpp; sourceTree = "<group>"; };
 		5263E24325C19057008FFCF0 /* EntryKeyGenerator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = EntryKeyGenerator.cpp; path = ParkingApp/ParkingEngine/EntryKeyGenerator.cpp; sourceTree = "<group>"; };
@@ -92,6 +108,19 @@
 		5234299225B3378F00A48661 = {
 			isa = PBXGroup;
 			children = (
+				525C288E25CA7A0C007F0FC0 /* VehiclesManager.cpp */,
+				525C288F25CA7A0C007F0FC0 /* VehiclesManager.hpp */,
+				525C288C25CA7374007F0FC0 /* ISessionObserver.h */,
+				525C288525C9936B007F0FC0 /* ISessionsManager.h */,
+				525C288125C98E24007F0FC0 /* SessionsManager.cpp */,
+				525C288225C98E24007F0FC0 /* SessionsManager.hpp */,
+				525C287F25C97847007F0FC0 /* IBarriersManager.hpp */,
+				525C287B25C97644007F0FC0 /* BarriersManager.cpp */,
+				525C287C25C97644007F0FC0 /* BarriersManager.hpp */,
+				525C287925C9731F007F0FC0 /* IStaffManager.hpp */,
+				525C287725C97006007F0FC0 /* IClientsManager.hpp */,
+				525C287525C8E0F6007F0FC0 /* IParkingPlacesManager.hpp */,
+				525C287325C8D78D007F0FC0 /* IPaymentManager.hpp */,
 				5263E24725C192E6008FFCF0 /* StaffManager.cpp */,
 				5263E24825C192E6008FFCF0 /* StaffManager.hpp */,
 				5263E24325C19057008FFCF0 /* EntryKeyGenerator.cpp */,
@@ -211,7 +240,9 @@
 				5268FC7C25C0412300345856 /* Client.cpp in Sources */,
 				523429C225B4571E00A48661 /* Parking.cpp in Sources */,
 				523429E325BA583C00A48661 /* Barrier.cpp in Sources */,
+				525C287D25C97644007F0FC0 /* BarriersManager.cpp in Sources */,
 				523429E925BAE32100A48661 /* ParkingPlacesManager.cpp in Sources */,
+				525C288325C98E24007F0FC0 /* SessionsManager.cpp in Sources */,
 				5263E24D25C1A0AD008FFCF0 /* Ticket.cpp in Sources */,
 				5234299F25B3378F00A48661 /* main.cpp in Sources */,
 				523429D925B57E7700A48661 /* PaymentService.cpp in Sources */,
@@ -220,6 +251,7 @@
 				5268FC6C25C0184F00345856 /* PaymentManager.cpp in Sources */,
 				523429BD25B3598E00A48661 /* SessionInfo.cpp in Sources */,
 				5263E24525C19057008FFCF0 /* EntryKeyGenerator.cpp in Sources */,
+				525C289025CA7A0C007F0FC0 /* VehiclesManager.cpp in Sources */,
 				5268FC8025C0590B00345856 /* VelichesRegisterService.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

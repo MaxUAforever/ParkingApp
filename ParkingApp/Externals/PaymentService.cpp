@@ -2,6 +2,9 @@
 
 #include <iostream>
 
+namespace ParkingEngine
+{
+
 bool PaymentService::getPayment(size_t amount)
 {
     size_t userAmount = 0;
@@ -28,3 +31,5 @@ bool PaymentService::getPayment(size_t amount)
     
     return true;
 }
+
+} // namespace ParkingEngine

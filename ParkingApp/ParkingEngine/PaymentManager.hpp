@@ -1,29 +1,27 @@
 #ifndef PaymentManager_hpp
 #define PaymentManager_hpp
 
+#include "IPaymentManager.hpp"
 #include "Vehicle.hpp"
 
-#include <stdio.h>
 #include <unordered_map>
 
 namespace ParkingEngine
 {
-class SessionInfo;
-class ParkingPlace;
 
-class PaymentManager
+class PaymentManager : public IPaymentManager
 {
 public:
     PaymentManager(double priceBaseСoefficient,
                    double disabledPersonDiscountCoef,
                    size_t floorDiscount);
     
-    size_t getTotalPrice(const SessionInfo& session, const ParkingPlace& place);
+    size_t getTotalPrice(const SessionInfo& session, const ParkingPlace& place) const override;
     
     size_t getPriceBaseСoefficient() const;
     void setPriceBaseСoefficient(size_t priceBaseСoefficient);
     
-    void setVelicheCoefficient(VehicleType vehicleType, double vehicleCoefficient);
+    void setVelicheCoefficient(VehicleType vehicleType, double vehicleCoefficient) override;
     double getVelicheCoefficient(VehicleType vehicleType) const;
     
 private:
