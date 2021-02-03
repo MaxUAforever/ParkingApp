@@ -19,6 +19,7 @@ Parking::Parking(std::unique_ptr<IPaymentManager> paymentManager,
     , _barriersManager(std::move(barriersManager))
     , _sessionsManager(std::move(sessionsManager))
 {
+    _vehiclesManager = std::make_unique<VehiclesManager>();
     _barriersManager->registerBarriersObserver(this);
     
     _paymentManager->setVelicheCoefficient(VehicleType::Motorbyke, 0.5);
