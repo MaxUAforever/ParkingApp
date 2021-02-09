@@ -2,7 +2,6 @@
 
 #include "ParkingEngine/Vehicle.hpp"
 #include "ParkingEngine/Parking.hpp"
-#include "ParkingEngine/Session.hpp"
 #include "ParkingEngine/ParkingFactory.hpp"
 
 #include <boost/optional.hpp>
@@ -107,6 +106,7 @@ int main(int argc, const char * argv[])
     {
         parking->releaseVehicle(ticket->getKeyID(), car2, 0);
     }
+    
     processParkingAccessResult(parking->acceptVehicle(car3, 0));
     std::cout << std::endl;
     

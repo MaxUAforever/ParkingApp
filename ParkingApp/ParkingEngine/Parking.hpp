@@ -18,7 +18,6 @@
 #include "ITimeManager.h"
 #include "ParkingPlace.hpp"
 #include "ParkingPlacesManager.hpp"
-#include "PaymentService.hpp"
 #include "Ticket.hpp"
 #include "VehiclesManager.hpp"
 
@@ -74,7 +73,6 @@ private:
     std::unique_ptr<IStaffManager> _staffManager;
     std::unique_ptr<IBarriersManager> _barriersManager;
     std::unique_ptr<VehiclesManager> _vehiclesManager;
-    PaymentService _paymentService;
 };
 
 } //namespace ParkingEngine

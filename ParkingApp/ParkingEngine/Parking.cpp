@@ -6,18 +6,19 @@
 
 namespace ParkingEngine
 {
-Parking::Parking(std::unique_ptr<IPaymentManager> paymentManager,
+
+Parking::Parking(std::unique_ptr<ITimeManager> timeManager,
+                 std::unique_ptr<IPaymentManager> paymentManager,
                  std::unique_ptr<IParkingPlacesManager> placesManager,
                  std::unique_ptr<IClientsManager> clientsManager,
                  std::unique_ptr<IStaffManager> staffManager,
-                 std::unique_ptr<IBarriersManager> barriersManager,
-                 std::unique_ptr<ISessionsManager> sessionsManager)
-    : _paymentManager(std::move(paymentManager))
+                 std::unique_ptr<IBarriersManager> barriersManager)
+    : _timeManager(std::move(timeManager))
+    , _paymentManager(std::move(paymentManager))
     , _placesManager(std::move(placesManager))
     , _clientsManager(std::move(clientsManager))
     , _staffManager(std::move(staffManager))
     , _barriersManager(std::move(barriersManager))
-    , _sessionsManager(std::move(sessionsManager))
 {
     _vehiclesManager = std::make_unique<VehiclesManager>();
     _barriersManager->registerBarriersObserver(this);
@@ -25,26 +26,19 @@ Parking::Parking(std::unique_ptr<IPaymentManager> paymentManager,
     _paymentManager->setVelicheCoefficient(VehicleType::Motorbyke, 0.5);
     _paymentManager->setVelicheCoefficient(VehicleType::Truck, 2);
     
-    _sessionsManager->registerObserver(&*_placesManager);
-    _sessionsManager->registerObserver(&*_clientsManager);
-    _sessionsManager->registerObserver(&*_vehiclesManager);
+    _paymentManager->registerObserver(&*_placesManager);
+    _paymentManager->registerObserver(&*_clientsManager);
+    _paymentManager->registerObserver(&*_vehiclesManager);
 }
 
 AccessResult Parking::reservePlace(EntryKeyID keyID, const Vehicle& vehicle, PlaceNumber placeNumber)
 {
-    if (_sessionsManager->getSession(keyID))
-    {
-        return AccessErrorCode::DuplicateCarNumber;
-    }
-    
-    if (!_placesManager->reservePlace(placeNumber))
+    if (!_placesManager->reservePlace(keyID, placeNumber))
     {
         return AccessErrorCode::NotEmptyPlace;
     }
     
-    auto session = Session(keyID, vehicle.getRegNumber(), placeNumber, TimeManager::getCurrentTime());
-    
-    _sessionsManager->addSession(keyID, std::move(session));
+    _timeManager->startSession(keyID);
     _vehiclesManager->addVehicle(keyID, vehicle);
     
     return Ticket(keyID, placeNumber);
@@ -115,69 +109,19 @@ bool Parking::acceptStaff(EntryKeyID keyID, size_t barrierNumber)
 
 void Parking::releaseVehicle(EntryKeyID keyID, const Vehicle& vehicle, size_t barrierNumber)
 {
-    auto session = _sessionsManager->getSession(keyID);
-    if (!session)
+    const auto isSuccessPayment = _paymentManager->getPayment(keyID);
+    
+    if (!isSuccessPayment)
     {
         handleBarrierAlert(barrierNumber);
         return;
     }
-    
-    const auto& place = _placesManager->getPlace(session->getPlaceNumber());
-    if (!place)
-    {
-        handleBarrierAlert(barrierNumber);
-        return;
-    }
-    
-    const auto price = _paymentManager->getTotalPrice(*session, *place);
-    if (!_paymentService.getPayment(price))
-    {
-        handleBarrierAlert(barrierNumber);
-        return;
-    }
-    
-    _sessionsManager->removeSession(keyID);
    
     if (!_barriersManager->openBarrier(barrierNumber))
     {
         handleBarrierAlert(barrierNumber);
         return;
     }
-}
-
-void Parking::releaseVehicleOld(EntryKeyID keyID, const Vehicle& vehicle, size_t barrierNumber)
-{
-    // TODO: rename getPayment.
-    const auto isSuccessPayment = _paymentManager->getPayment(keyID);
-    auto vehicleIt = _vehiclesManager->getVehicle(keyID);
-                            
-    if (!isSuccessPayment)
-    {
-        onAlert(barrierNumber);
-        return;
-    }
-    
-    const auto& session = sessionIt->second;
-    if (const auto& place = _placesManager.getPlace(session.getPlaceNumber()))
-    {
-        const auto price = _paymentManager.getTotalPrice(session, *place);
-        
-        if (PaymentService::getPayment(price))
-        {
-            _placesManager.releasePlace(session.getPlaceNumber());
-            _sessions.erase(sessionIt);
-            _vehicles.erase(vehicleIt);
-            
-            _clientsManager.addDiscount(keyID, TimeManager::getCurrentTime() - session.getStartTime());
-            
-            if (_barriers.at(barrierNumber).open())
-            {
-                return;
-            }
-        }
-    }
-    
-    handleBarrierAlert(barrierNumber);
 }
 
 void Parking::onAlert(size_t barrierNumber)

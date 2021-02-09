@@ -33,7 +33,7 @@ public:
     double getVelicheCoefficient(VehicleType vehicleType) const;
     void setVelicheCoefficient(VehicleType vehicleType, double vehicleCoefficient) override;
     
-    void registerObserver(IPaymentObserver* observer);
+    void registerObserver(IPaymentObserver* observer) override;
     
 private:
     void notifyObservers(EntryKeyID keyID) const;

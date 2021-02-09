@@ -28,7 +28,7 @@ public:
     virtual std::vector<PlaceNumber> getFreePlacesList(bool isForDisabledPerson) const = 0;
 };
 
-class IParkingPlacesManager : public IBaseParkingPlacesManager, IPaymentObserver
+class IParkingPlacesManager : public IBaseParkingPlacesManager, public IPaymentObserver
 {
 };
 

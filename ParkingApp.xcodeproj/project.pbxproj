@@ -41,7 +41,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		52174B6925D33C5400D3DC64 /* ITimeManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ITimeManager.h; sourceTree = "<group>"; };
+		52174B7125D3470900D3DC64 /* ITimeManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ITimeManager.h; path = ParkingApp/ParkingEngine/ITimeManager.h; sourceTree = "<group>"; };
 		5234299B25B3378F00A48661 /* ParkingApp */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ParkingApp; sourceTree = BUILT_PRODUCTS_DIR; };
 		5234299E25B3378F00A48661 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		523429B225B33FD500A48661 /* ParkingEngine */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ParkingEngine; sourceTree = "<group>"; };
@@ -105,7 +105,7 @@
 		5234299225B3378F00A48661 = {
 			isa = PBXGroup;
 			children = (
-				52174B6925D33C5400D3DC64 /* ITimeManager.h */,
+				52174B7125D3470900D3DC64 /* ITimeManager.h */,
 				525C289725CA832B007F0FC0 /* ParkingFactory.cpp */,
 				525C289825CA832B007F0FC0 /* ParkingFactory.hpp */,
 				525C288E25CA7A0C007F0FC0 /* VehiclesManager.cpp */,

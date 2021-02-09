@@ -19,6 +19,9 @@ public:
     virtual size_t getTotalPrice(EntryKeyID keyID) const = 0;
     
     virtual void setVelicheCoefficient(VehicleType vehicleType, double vehicleCoefficient) = 0;
+    
+    // TODO: move to separate inerface
+    virtual void registerObserver(IPaymentObserver* observer) = 0;
 };
 
 } // namespace ParkingEngine

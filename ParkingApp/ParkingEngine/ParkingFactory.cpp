@@ -4,7 +4,7 @@
 #include "ClientsManager.hpp"
 #include "PaymentManager.hpp"
 #include "ParkingPlacesManager.hpp"
-#include "SessionsManager.hpp"
+#include "TimeManager.hpp"
 #include "StaffManager.hpp"
 
 namespace ParkingEngine
@@ -20,9 +20,8 @@ std::unique_ptr<Parking> ParkingFacory::createParking(size_t barriersCount,
     auto staffManager = std::make_unique<StaffManager>();
     auto placesManager = std::make_unique<ParkingPlacesManager>(placesCount);
     auto barriersManager = std::make_unique<BarriersManager>(barriersCount);
-    auto sessionsManager = std::make_unique<SessionsManager>();
     
-    // TODO: trouble with managers
+    // TODO: trouble with managers.
     auto clientsManager = std::make_unique<ClientsManager>(*timeManager);
     auto paymentManager = std::make_unique<PaymentManager>(*timeManager, *placesManager, priceBaseСoefficient, disabledPersonDiscountCoef, floorDiscount);
     

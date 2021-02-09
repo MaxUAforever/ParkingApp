@@ -50,10 +50,10 @@ size_t PaymentManager::getTotalPrice(EntryKeyID keyID) const
         return 0;
     }
     
-    const auto totalFloorDiscount = (std::abs(place->getFloor()) - 1) * _floorDiscount;
-    const auto vehicleCoefficient = getVelicheCoefficient(place->getVehicleType());
+    //const auto totalFloorDiscount = (std::abs(place->getFloor()) - 1) * _floorDiscount;
+    //const auto vehicleCoefficient = getVelicheCoefficient(place->getVehicleType());
     
-    size_t totalPrice = std::round(durationTime * _priceBaseСoefficient * _disabledPersonDiscountCoef * vehicleCoefficient - totalFloorDiscount);
+    size_t totalPrice = durationTime * _priceBaseСoefficient;
     
     return totalPrice;
 }
@@ -92,7 +92,7 @@ void PaymentManager::registerObserver(IPaymentObserver* observer)
 void PaymentManager::notifyObservers(EntryKeyID keyID) const
 {
     for (auto observer : _observers)
-    {
+    {        
         observer->onSuccessPayment(keyID);
     }
 }

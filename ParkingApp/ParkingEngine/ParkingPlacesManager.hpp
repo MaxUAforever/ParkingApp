@@ -8,14 +8,14 @@
 #include <boost/optional.hpp>
 #include <stdio.h>
 #include <map>
-#include <unordered_set>
+#include <set>
 
 namespace ParkingEngine
 {
 // TODO: change PlaceNumber to PlaceID;
 // TODO: remove usings?
 using ParkingPlaces = std::map<PlaceNumber, ParkingPlace>;
-using FreePlacesIDs = std::unordered_set<PlaceNumber>;
+using FreePlacesIDs = std::set<PlaceNumber>;
 using ReservedPlacesIDs = std::map<EntryKeyID, PlaceNumber>;
 
 using IsPlaceSuitableFunc = std::function<bool(const ParkingPlace&)>;
