@@ -4,6 +4,11 @@
 namespace ParkingEngine
 {
 
+ClientsManager::ClientsManager(const TimeManager& timeManager)
+    : _timeManager(timeManager)
+{
+}
+
 boost::optional<const Client&> ClientsManager::getClient(EntryKeyID clientID) const
 {
     auto clientIt = _clients.find(clientID);
@@ -26,21 +31,20 @@ void ClientsManager::addClient(std::string name)
 bool ClientsManager::addDiscount(EntryKeyID clientID, size_t durationTime)
 {
     auto clientIt = _clients.find(clientID);
-                            
     if (clientIt == _clients.end())
     {
-        auto discount = durationTime * 10;
-        
-        clientIt->second.addDiscountSum(discount);
-        return true;
+        return false;
     }
     
-    return false;
+    auto discount = durationTime * 10;
+    
+    clientIt->second.addDiscountSum(discount);
+    return true;
 }
 
-void ClientsManager::onSuccessRelease(SessionInfo session)
+void ClientsManager::onSuccessPayment(EntryKeyID clientID)
 {
-    addDiscount(session.getKeyID(), TimeManager::getCurrentTime() - session.getStartTime());
+    addDiscount(clientID, _timeManager.getSessionDuraton(clientID));
 }
 
 } // namespace ParkingEngine

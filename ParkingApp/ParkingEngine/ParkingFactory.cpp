@@ -16,19 +16,22 @@ std::unique_ptr<Parking> ParkingFacory::createParking(size_t barriersCount,
                                                       double disabledPersonDiscountCoef,
                                                       size_t floorDiscount)
 {
-    auto paymentManager = std::make_unique<PaymentManager>(priceBaseСoefficient, disabledPersonDiscountCoef, floorDiscount);
-    auto placesManager = std::make_unique<ParkingPlacesManager>(placesCount);
-    auto clientsManager = std::make_unique<ClientsManager>();
+    auto timeManager = std::make_unique<TimeManager>();
     auto staffManager = std::make_unique<StaffManager>();
+    auto placesManager = std::make_unique<ParkingPlacesManager>(placesCount);
     auto barriersManager = std::make_unique<BarriersManager>(barriersCount);
     auto sessionsManager = std::make_unique<SessionsManager>();
     
-    return std::make_unique<Parking>(std::move(paymentManager),
+    // TODO: trouble with managers
+    auto clientsManager = std::make_unique<ClientsManager>(*timeManager);
+    auto paymentManager = std::make_unique<PaymentManager>(*timeManager, *placesManager, priceBaseСoefficient, disabledPersonDiscountCoef, floorDiscount);
+    
+    return std::make_unique<Parking>(std::move(timeManager),
+                                     std::move(paymentManager),
                                      std::move(placesManager),
                                      std::move(clientsManager),
                                      std::move(staffManager),
-                                     std::move(barriersManager),
-                                     std::move(sessionsManager));
+                                     std::move(barriersManager));
 }
 
-}
+} // namespace ParkingEngine

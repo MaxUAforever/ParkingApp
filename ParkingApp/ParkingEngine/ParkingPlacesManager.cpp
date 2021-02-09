@@ -9,39 +9,45 @@ ParkingPlacesManager::ParkingPlacesManager(size_t placesCount)
 {
     for (PlaceNumber i = 1; i <= placesCount; ++i)
     {
-        _freePlaces.insert({i, ParkingPlace(i)});
+        _places.emplace(i, ParkingPlace(i));
+        _freePlaces.emplace(i);
     }
 }
 
 boost::optional<const ParkingPlace&> ParkingPlacesManager::getPlace(PlaceNumber placeNumber) const
 {
-    auto freePaceIt = _freePlaces.find(placeNumber);
-    if (freePaceIt != _freePlaces.end())
+    auto placeIt = _places.find(placeNumber);
+    if (placeIt != _places.end())
     {
-        return freePaceIt->second;
-    }
-    
-    auto reservedPlaceIt = _reservedPlaces.find(placeNumber);
-    if (reservedPlaceIt != _freePlaces.end())
-    {
-        return reservedPlaceIt->second;
+        return placeIt->second;
     }
     
     return boost::none;
 }
 
-bool ParkingPlacesManager::reserveFreePlace()
+boost::optional<const ParkingPlace&> ParkingPlacesManager::getReservedPlace(EntryKeyID keyID) const
+{
+    auto placeIt = _reservedPlaces.find(keyID);
+    if (placeIt != _reservedPlaces.end())
+    {
+        return _places.at(placeIt->second);
+    }
+    
+    return boost::none;
+}
+
+bool ParkingPlacesManager::reserveFreePlace(EntryKeyID clientID)
 {
     if (isParkingFull())
     {
         return false;
     }
     
-    const auto& placeNumber = _freePlaces.begin()->first;
-    return reservePlace(placeNumber);
+    const auto& placeNumber = _freePlaces.begin();
+    return reservePlace(clientID, *placeNumber);
 }
 
-bool ParkingPlacesManager::reservePlace(PlaceNumber placeNumber)
+bool ParkingPlacesManager::reservePlace(EntryKeyID clientID, PlaceNumber placeNumber)
 {
     auto placeIt = _freePlaces.find(placeNumber);
     if (placeIt == _freePlaces.end())
@@ -49,24 +55,27 @@ bool ParkingPlacesManager::reservePlace(PlaceNumber placeNumber)
         return false;
     }
     
-    _reservedPlaces.insert({placeNumber, std::move(placeIt->second)});
+    _reservedPlaces.emplace(clientID, std::move(*placeIt));
     _freePlaces.erase(placeIt);
     
     return true;
 }
 
-bool ParkingPlacesManager::releasePlace(PlaceNumber placeNumber)
+// TODO: change to void?
+bool ParkingPlacesManager::releasePlace(EntryKeyID clientID)
 {
-    auto reservedPlaceIt = _reservedPlaces.find(placeNumber);
-    if (reservedPlaceIt != _freePlaces.end())
+    auto reservedPlaceIt = _reservedPlaces.find(clientID);
+    if (reservedPlaceIt == _reservedPlaces.end())
     {
-        _freePlaces.insert({placeNumber, std::move(reservedPlaceIt->second)});
-        _reservedPlaces.erase(reservedPlaceIt);
-        
-        return true;
+        return false;
     }
     
-    return false;
+    auto placeNumber = reservedPlaceIt->second;
+    
+    _freePlaces.emplace(std::move(placeNumber));
+    _reservedPlaces.erase(reservedPlaceIt);
+    
+    return true;
 }
 
 bool ParkingPlacesManager::isParkingFull() const
@@ -102,9 +111,9 @@ std::vector<PlaceNumber> ParkingPlacesManager::getFreePlacesListByParam(IsPlaceS
 {
     std::vector<PlaceNumber> freePlacesIndexes;
     
-    for (const auto& placeInfo : _freePlaces)
+    for (const auto& placeID : _freePlaces)
     {
-        const auto& place = placeInfo.second;
+        const auto& place = _places.at(placeID);
         
         if (isSuitableFunc(place))
         {
@@ -115,9 +124,9 @@ std::vector<PlaceNumber> ParkingPlacesManager::getFreePlacesListByParam(IsPlaceS
     return freePlacesIndexes;
 }
 
-void ParkingPlacesManager::onSuccessRelease(SessionInfo session)
+void ParkingPlacesManager::onSuccessPayment(EntryKeyID clientID)
 {
-    releasePlace(session.getPlaceNumber());
+    releasePlace(clientID);
 }
 
 } // namespace ParkingEngine

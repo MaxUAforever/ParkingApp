@@ -2,7 +2,7 @@
 
 #include "ParkingEngine/Vehicle.hpp"
 #include "ParkingEngine/Parking.hpp"
-#include "ParkingEngine/SessionInfo.hpp"
+#include "ParkingEngine/Session.hpp"
 #include "ParkingEngine/ParkingFactory.hpp"
 
 #include <boost/optional.hpp>

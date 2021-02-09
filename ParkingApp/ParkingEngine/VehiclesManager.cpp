@@ -1,7 +1,5 @@
 #include "VehiclesManager.hpp"
 
-#include "SessionInfo.hpp"
-
 namespace ParkingEngine
 {
 
@@ -35,9 +33,9 @@ bool VehiclesManager::removeVehicle(EntryKeyID keyID)
 }
 
 
-void VehiclesManager::onSuccessRelease(SessionInfo session)
+void VehiclesManager::onSuccessPayment(EntryKeyID keyID)
 {
-    removeVehicle(session.getKeyID());
+    removeVehicle(keyID);
 }
 
 } // namespace ParkingEngine

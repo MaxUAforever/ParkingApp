@@ -7,19 +7,19 @@
 
 #include "Vehicle.hpp"
 #include "EntryKeyGenerator.hpp"
-#include "ISessionObserver.h"
+#include "IPaymentObserver.h"
 
 namespace ParkingEngine
 {
 
-class VehiclesManager : public ISessionObserver
+class VehiclesManager : public IPaymentObserver
 {
 public:
     boost::optional<const Vehicle&> getVehicle(EntryKeyID keyID) const;
     void addVehicle(EntryKeyID keyID, const Vehicle& vehicle);
     bool removeVehicle(EntryKeyID keyID);
     
-    void onSuccessRelease(SessionInfo session) override;
+    void onSuccessPayment(EntryKeyID keyID) override;
     
 private:
     std::unordered_map<EntryKeyID, Vehicle> _vehicles;

@@ -14,12 +14,11 @@
 #include "IBarriersManager.hpp"
 #include "IClientsManager.hpp"
 #include "IPaymentManager.hpp"
-#include "ISessionsManager.h"
 #include "IStaffManager.hpp"
+#include "ITimeManager.h"
 #include "ParkingPlace.hpp"
 #include "ParkingPlacesManager.hpp"
 #include "PaymentService.hpp"
-#include "SessionInfo.hpp"
 #include "Ticket.hpp"
 #include "VehiclesManager.hpp"
 
@@ -45,12 +44,12 @@ using Vehicles = std::unordered_map<EntryKeyID, Vehicle>;
 class Parking : public IBarrierObserver
 {
 public:
-    Parking(std::unique_ptr<IPaymentManager> paymentManager,
+    Parking(std::unique_ptr<ITimeManager> timeManager,
+            std::unique_ptr<IPaymentManager> paymentManager,
             std::unique_ptr<IParkingPlacesManager> placesManager,
             std::unique_ptr<IClientsManager> clientsManager,
             std::unique_ptr<IStaffManager> staffManager,
-            std::unique_ptr<IBarriersManager> barriersManager,
-            std::unique_ptr<ISessionsManager> sessionsManager);
+            std::unique_ptr<IBarriersManager> barriersManager);
 
     AccessResult acceptVehicle(const Vehicle& vehicle, size_t barrierNumber, boost::optional<EntryKeyID> clientID = boost::none);
     AccessResult acceptVehicle(const Vehicle& vehicle, size_t barrierNumber, size_t placeNumber, boost::optional<EntryKeyID> clientID = boost::none);
@@ -68,12 +67,12 @@ private:
     AccessResult reservePlace(EntryKeyID keyID, const Vehicle& vehicle, PlaceNumber placeNumber);
     
 private:
+    std::unique_ptr<ITimeManager> _timeManager;
     std::unique_ptr<IPaymentManager> _paymentManager;
     std::unique_ptr<IParkingPlacesManager> _placesManager;
     std::unique_ptr<IClientsManager> _clientsManager;
     std::unique_ptr<IStaffManager> _staffManager;
     std::unique_ptr<IBarriersManager> _barriersManager;
-    std::unique_ptr<ISessionsManager> _sessionsManager;
     std::unique_ptr<VehiclesManager> _vehiclesManager;
     PaymentService _paymentService;
 };

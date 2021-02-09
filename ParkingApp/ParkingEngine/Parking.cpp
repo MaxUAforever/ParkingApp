@@ -42,7 +42,7 @@ AccessResult Parking::reservePlace(EntryKeyID keyID, const Vehicle& vehicle, Pla
         return AccessErrorCode::NotEmptyPlace;
     }
     
-    auto session = SessionInfo(keyID, vehicle.getRegNumber(), placeNumber, TimeManager::getCurrentTime());
+    auto session = Session(keyID, vehicle.getRegNumber(), placeNumber, TimeManager::getCurrentTime());
     
     _sessionsManager->addSession(keyID, std::move(session));
     _vehiclesManager->addVehicle(keyID, vehicle);
@@ -143,6 +143,41 @@ void Parking::releaseVehicle(EntryKeyID keyID, const Vehicle& vehicle, size_t ba
         handleBarrierAlert(barrierNumber);
         return;
     }
+}
+
+void Parking::releaseVehicleOld(EntryKeyID keyID, const Vehicle& vehicle, size_t barrierNumber)
+{
+    // TODO: rename getPayment.
+    const auto isSuccessPayment = _paymentManager->getPayment(keyID);
+    auto vehicleIt = _vehiclesManager->getVehicle(keyID);
+                            
+    if (!isSuccessPayment)
+    {
+        onAlert(barrierNumber);
+        return;
+    }
+    
+    const auto& session = sessionIt->second;
+    if (const auto& place = _placesManager.getPlace(session.getPlaceNumber()))
+    {
+        const auto price = _paymentManager.getTotalPrice(session, *place);
+        
+        if (PaymentService::getPayment(price))
+        {
+            _placesManager.releasePlace(session.getPlaceNumber());
+            _sessions.erase(sessionIt);
+            _vehicles.erase(vehicleIt);
+            
+            _clientsManager.addDiscount(keyID, TimeManager::getCurrentTime() - session.getStartTime());
+            
+            if (_barriers.at(barrierNumber).open())
+            {
+                return;
+            }
+        }
+    }
+    
+    handleBarrierAlert(barrierNumber);
 }
 
 void Parking::onAlert(size_t barrierNumber)

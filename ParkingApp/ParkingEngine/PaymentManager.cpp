@@ -1,27 +1,57 @@
 #include "PaymentManager.hpp"
 
 #include "ParkingPlace.hpp"
-#include "SessionInfo.hpp"
 #include "TimeManager.hpp"
+
 
 #include <cmath>
 
 namespace ParkingEngine
 {
 
-PaymentManager::PaymentManager(double priceBaseСoefficient,
+PaymentManager::PaymentManager(const TimeManager& timeManager,
+                               const IParkingPlacesManager& placesManager,
+                               double priceBaseСoefficient,
                                double disabledPersonDiscountCoef,
                                size_t floorDiscount)
-    : _priceBaseСoefficient(priceBaseСoefficient)
+    : _timeManager(timeManager)
+    , _placesManager(placesManager)
+    , _priceBaseСoefficient(priceBaseСoefficient)
     , _disabledPersonDiscountCoef(disabledPersonDiscountCoef)
     , _floorDiscount(floorDiscount)
-{}
-
-size_t PaymentManager::getTotalPrice(const SessionInfo& session, const ParkingPlace& place) const
 {
-    const auto durationTime = TimeManager::getCurrentTime() - session.getStartTime();
-    const auto totalFloorDiscount = (std::abs(place.getFloor()) - 1) * _floorDiscount;
-    const auto vehicleCoefficient = getVelicheCoefficient(place.getVehicleType());
+    _paymentService = std::make_unique<PaymentService>();
+}
+
+bool PaymentManager::getPayment(EntryKeyID keyID) const
+{
+    const auto totalPrice = getTotalPrice(keyID);
+    if (!totalPrice)
+    {
+        return false;
+    }
+    
+    if (!_paymentService->getPayment(totalPrice))
+    {
+        return false;
+    }
+    
+    notifyObservers(keyID);
+    return true;
+}
+
+size_t PaymentManager::getTotalPrice(EntryKeyID keyID) const
+{
+    const auto& durationTime = _timeManager.getSessionDuraton(keyID);
+    const auto& place = _placesManager.getReservedPlace(keyID);
+    
+    if (!place)
+    {
+        return 0;
+    }
+    
+    const auto totalFloorDiscount = (std::abs(place->getFloor()) - 1) * _floorDiscount;
+    const auto vehicleCoefficient = getVelicheCoefficient(place->getVehicleType());
     
     size_t totalPrice = std::round(durationTime * _priceBaseСoefficient * _disabledPersonDiscountCoef * vehicleCoefficient - totalFloorDiscount);
     
@@ -52,6 +82,19 @@ size_t PaymentManager::getPriceBaseСoefficient() const
 void PaymentManager::setPriceBaseСoefficient(size_t priceBaseСoefficient)
 {
     _priceBaseСoefficient = priceBaseСoefficient;
+}
+
+void PaymentManager::registerObserver(IPaymentObserver* observer)
+{
+    _observers.push_back(observer);
+}
+
+void PaymentManager::notifyObservers(EntryKeyID keyID) const
+{
+    for (auto observer : _observers)
+    {
+        observer->onSuccessPayment(keyID);
+    }
 }
 
 } // namespace ParkingEngine
