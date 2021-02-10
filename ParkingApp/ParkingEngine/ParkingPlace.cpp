@@ -6,19 +6,30 @@
 namespace ParkingEngine
 {
 
-ParkingPlace::ParkingPlace(size_t number, int floor, bool isForDisabledPerson, VehicleType vehicleType)
-    : _number(number)
+ParkingPlace::ParkingPlace(size_t placeID, size_t number, int floor, bool isForDisabledPerson, VehicleType vehicleType)
+    : _placeID(placeID)
+    , _number(number)
     , _floor(floor)
     , _isForDisabledPerson(isForDisabledPerson)
     , _vehicleType(vehicleType)
 {}
     
-PlaceID ParkingPlace::getNumber() const
+PlaceID ParkingPlace::getPlaceID() const
+{
+    return _placeID;
+}
+
+void ParkingPlace::setPlaceID(PlaceID placeID)
+{
+    _placeID = placeID;
+}
+
+size_t ParkingPlace::getPlaceNumber() const
 {
     return _number;
 }
 
-void ParkingPlace::setNumber(PlaceID number)
+void ParkingPlace::setPlaceNumber(size_t number)
 {
     _number = number;
 }
@@ -55,13 +66,13 @@ void ParkingPlace::setVehicleType(VehicleType vehicleType)
 
 bool ParkingPlace::operator== (const ParkingPlace& place) const
 {
-    return std::tie(_number, _floor, _isForDisabledPerson, _vehicleType) ==
-           std::tie(place._number, place._floor, place._isForDisabledPerson, place._vehicleType);
+    return std::tie(_placeID, _floor, _isForDisabledPerson, _vehicleType) ==
+           std::tie(place._placeID, place._floor, place._isForDisabledPerson, place._vehicleType);
 }
 
 bool ParkingPlace::operator< (const ParkingPlace& place) const
 {
-    return _number < place._number;
+    return _placeID < place._placeID;
 }
 
 } // namespace ParkingEngine

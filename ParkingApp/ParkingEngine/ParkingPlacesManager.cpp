@@ -116,7 +116,7 @@ std::vector<PlaceID> ParkingPlacesManager::getFreePlacesListByParam(IsPlaceSuita
         
         if (isSuitableFunc(place))
         {
-            freePlacesIndexes.emplace_back(place.getNumber());
+            freePlacesIndexes.emplace_back(place.getPlaceID());
         }
     }
     
