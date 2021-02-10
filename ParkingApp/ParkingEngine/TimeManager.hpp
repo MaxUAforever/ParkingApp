@@ -15,6 +15,8 @@ public:
     void stopSession(EntryKeyID keyID) override;
     TimeType getSessionDuraton(EntryKeyID keyID) const override;
     
+    void onSuccessPayment(EntryKeyID keyID) override;
+    
 private:
     size_t getCurrentTime() const;
     

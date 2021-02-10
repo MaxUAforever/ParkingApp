@@ -114,7 +114,7 @@ int main(int argc, const char * argv[])
     std::cout << "Try to pop second vehicle and push third:\n";
     if (ticket)
     {
-        parking->releaseVehicle(ticket->getKeyID(), car2, 0);
+        parking->releaseVehicle(ticket->getKeyID(), 0);
     }
     
     processParkingAccessResult(parking->acceptVehicle(car3, 0));

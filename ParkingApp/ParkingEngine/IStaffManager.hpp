@@ -12,6 +12,7 @@ public:
     virtual ~IStaffManager() = default;
     
     virtual boost::optional<const Staff&> getStaff(EntryKeyID keyID) const = 0;
+    
     virtual void addStaff(std::string name) = 0;
 };
 

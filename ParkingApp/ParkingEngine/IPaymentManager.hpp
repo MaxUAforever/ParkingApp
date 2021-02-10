@@ -10,15 +10,26 @@ class Session;
 class ParkingPlace;
 enum class VehicleType : std::uint8_t;
 
-class IPaymentManager
+class IBasePaymentManager
 {
 public:
-    virtual ~IPaymentManager() = default;
+    virtual ~IBasePaymentManager() = default;
     
     virtual bool getPayment(EntryKeyID keyID) const = 0;
+    
     virtual size_t getTotalPrice(EntryKeyID keyID) const = 0;
+};
+
+class IPaymentObservable
+{
+public:
+    virtual ~IPaymentObservable() = default;
     
     virtual void registerObserver(IPaymentObserver* observer) = 0;
+};
+
+class IPaymentManager : public IBasePaymentManager, public IPaymentObservable
+{
 };
 
 } // namespace ParkingEngine

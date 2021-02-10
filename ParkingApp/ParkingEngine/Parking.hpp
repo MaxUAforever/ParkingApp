@@ -55,7 +55,7 @@ public:
 
     AccessResult acceptVehicle(const Vehicle& vehicle, size_t barrierNumber, boost::optional<EntryKeyID> clientID = boost::none);
     AccessResult acceptVehicle(const Vehicle& vehicle, size_t barrierNumber, size_t placeID, boost::optional<EntryKeyID> clientID = boost::none);
-    void releaseVehicle(EntryKeyID keyID, const Vehicle& vehicle, size_t barrierNumber);
+    void releaseVehicle(EntryKeyID keyID, size_t barrierNumber);
     
     bool acceptStaff(EntryKeyID keyID, size_t barrierNumber);
     

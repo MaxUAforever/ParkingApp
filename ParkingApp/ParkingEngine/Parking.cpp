@@ -25,6 +25,7 @@ Parking::Parking(std::unique_ptr<ITimeManager> timeManager,
     _paymentManager->registerObserver(&*_placesManager);
     _paymentManager->registerObserver(&*_clientsManager);
     _paymentManager->registerObserver(&*_vehiclesManager);
+    _paymentManager->registerObserver(&*_timeManager);
 }
 
 AccessResult Parking::reservePlace(EntryKeyID keyID, const Vehicle& vehicle, PlaceID placeID)
@@ -103,7 +104,7 @@ bool Parking::acceptStaff(EntryKeyID keyID, size_t barrierNumber)
     return false;
 }
 
-void Parking::releaseVehicle(EntryKeyID keyID, const Vehicle& vehicle, size_t barrierNumber)
+void Parking::releaseVehicle(EntryKeyID keyID, size_t barrierNumber) 
 {
     const auto isSuccessPayment = _paymentManager->getPayment(keyID);
     

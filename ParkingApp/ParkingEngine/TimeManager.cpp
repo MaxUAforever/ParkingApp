@@ -29,6 +29,11 @@ TimeType TimeManager::getSessionDuraton(EntryKeyID keyID) const
     return getCurrentTime() - startTime;
 }
 
+void TimeManager::onSuccessPayment(EntryKeyID keyID)
+{
+    stopSession(keyID);
+}
+
 size_t TimeManager::getCurrentTime() const
 {
     static size_t currentTime = 0;
