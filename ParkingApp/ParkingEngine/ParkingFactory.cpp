@@ -26,7 +26,7 @@ std::unique_ptr<Parking> ParkingFacory::createParking(size_t barriersCount,
     const VehicleDiscounts vehicleDiscounts = {{VehicleType::Motorbyke, 0.5}, {VehicleType::Truck, 2}};
     
     auto clientsManager = std::make_unique<ClientsManager>(*timeManager);
-    auto paymentManager = std::make_unique<PaymentManager>(*timeManager, *placesManager, vehicleDiscounts, priceBaseСoefficient, disabledPersonDiscountCoef, floorDiscount);
+    auto paymentManager = std::make_unique<PaymentManager>(*timeManager, *placesManager, *staffManager, vehicleDiscounts, priceBaseСoefficient, disabledPersonDiscountCoef, floorDiscount);
     
     return std::make_unique<Parking>(std::move(timeManager),
                                      std::move(paymentManager),

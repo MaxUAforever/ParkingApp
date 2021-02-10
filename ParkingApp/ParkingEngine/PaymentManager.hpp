@@ -6,6 +6,7 @@
 #include "EntryKeyGenerator.hpp"
 #include "IPaymentManager.hpp"
 #include "IParkingPlacesManager.hpp"
+#include "IStaffManager.hpp"
 #include "PaymentService.hpp"
 #include "Vehicle.hpp"
 
@@ -21,6 +22,7 @@ class PaymentManager : public IPaymentManager
 public:
     PaymentManager(const ITimeManager& timeManager,
                    const IParkingPlacesManager& placesManager,
+                   const IStaffManager& staffManager,
                    const VehicleDiscounts vehicleDiscounts,
                    double priceBaseСoefficient,
                    double disabledPersonDiscountCoef,
@@ -40,6 +42,7 @@ private:
 private:
     const ITimeManager& _timeManager;
     const IParkingPlacesManager& _placesManager;
+    const IStaffManager& _staffManager;
     std::unique_ptr<PaymentService> _paymentService;
     std::vector<IPaymentObserver*> _observers;
 

@@ -10,12 +10,14 @@ namespace ParkingEngine
 
 PaymentManager::PaymentManager(const ITimeManager& timeManager,
                                const IParkingPlacesManager& placesManager,
+                               const IStaffManager& staffManager,
                                VehicleDiscounts vehicleDiscounts,
                                double priceBaseСoefficient,
                                double disabledPersonDiscountCoef,
                                size_t floorDiscount)
     : _timeManager(timeManager)
     , _placesManager(placesManager)
+    , _staffManager(staffManager)
     , _vehicleCoefficients()
     , _priceBaseСoefficient(priceBaseСoefficient)
     , _disabledPersonDiscountCoef(disabledPersonDiscountCoef)
@@ -46,15 +48,18 @@ size_t PaymentManager::getTotalPrice(EntryKeyID keyID) const
     const auto& durationTime = _timeManager.getSessionDuraton(keyID);
     const auto& place = _placesManager.getReservedPlace(keyID);
     
-    if (!place)
+    if(_staffManager.getStaff(keyID))
     {
         return 0;
     }
     
-    //const auto totalFloorDiscount = (std::abs(place->getFloor()) - 1) * _floorDiscount;
-    //const auto vehicleCoefficient = getVelicheCoefficient(place->getVehicleType());
-    
     size_t totalPrice = durationTime * _priceBaseСoefficient;
+    
+    const auto totalFloorDiscount = (std::abs(place->getFloor()) - 1) * _floorDiscount;
+    totalPrice -= totalFloorDiscount;
+    
+    const auto vehicleCoefficient = getVelicheCoefficient(place->getVehicleType());
+    totalPrice *= vehicleCoefficient;
     
     return totalPrice;
 }
