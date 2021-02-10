@@ -33,7 +33,9 @@ enum class AccessErrorCode : std::uint8_t
     WrongPlaceNumber,
     WrongVehicleType,
     NotDisabledVehicle,
-    NotAvailableVelRegService
+    NotAvailableVelRegService,
+    NotSuccessfulPayment,
+    BarrierIsBroken
 };
 
 using AccessResult = boost::variant<Ticket, AccessErrorCode>;
@@ -62,7 +64,7 @@ public:
     std::vector<PlaceNumber> getFreePlacesList() const;
     
 private:
-    void handleBarrierAlert(size_t barrierNumber);
+    void handleBarrierAlert(size_t barrierNumber, AccessErrorCode error);
     
     AccessResult reservePlace(EntryKeyID keyID, const Vehicle& vehicle, PlaceNumber placeNumber);
     

@@ -51,6 +51,16 @@ boost::optional<Ticket> processParkingAccessResult(const AccessResult& result)
                 std::cout << "Vehicles register service is not responding. Please, call operator.\n";
                 break;
             }
+            case AccessErrorCode::NotSuccessfulPayment:
+            {
+                std::cout << "Payment is not successful!\n";
+                break;
+            }
+            case AccessErrorCode::BarrierIsBroken:
+            {
+                std::cout << "Barrier is broken. Please, wait for operator.\n";
+                break;
+            }
         }
     }
     else if (result.type() == typeid(Ticket))

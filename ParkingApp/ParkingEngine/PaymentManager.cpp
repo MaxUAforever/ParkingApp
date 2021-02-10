@@ -29,12 +29,8 @@ PaymentManager::PaymentManager(const ITimeManager& timeManager,
 bool PaymentManager::getPayment(EntryKeyID keyID) const
 {
     const auto totalPrice = getTotalPrice(keyID);
-    if (!totalPrice)
-    {
-        return false;
-    }
     
-    if (!_paymentService->getPayment(totalPrice))
+    if (totalPrice && !_paymentService->getPayment(totalPrice))
     {
         return false;
     }

@@ -74,7 +74,7 @@ AccessResult Parking::acceptVehicle(const Vehicle& vehicle, size_t barrierNumber
         
         if (!isVehicleForDisabled)
         {
-            handleBarrierAlert(barrierNumber);
+            handleBarrierAlert(barrierNumber, AccessErrorCode::NotAvailableVelRegService);
             
             return AccessErrorCode::NotAvailableVelRegService;
         }
@@ -109,25 +109,39 @@ void Parking::releaseVehicle(EntryKeyID keyID, const Vehicle& vehicle, size_t ba
     
     if (!isSuccessPayment)
     {
-        handleBarrierAlert(barrierNumber);
+        handleBarrierAlert(barrierNumber, AccessErrorCode::NotSuccessfulPayment);
         return;
     }
    
     if (!_barriersManager->openBarrier(barrierNumber))
     {
-        handleBarrierAlert(barrierNumber);
+        handleBarrierAlert(barrierNumber, AccessErrorCode::BarrierIsBroken);
         return;
     }
 }
 
 void Parking::onAlert(size_t barrierNumber)
 {
-    handleBarrierAlert(barrierNumber);
+    handleBarrierAlert(barrierNumber, AccessErrorCode::BarrierIsBroken);
 }
 
-void Parking::handleBarrierAlert(size_t barrierNumber)
+void Parking::handleBarrierAlert(size_t barrierNumber, AccessErrorCode error)
 {
     std::cout << "Operator is needed on " << barrierNumber << " barrier.\n";
+    
+    switch(error)
+    {
+        case AccessErrorCode::FullParking: std::cout << "FullParking" << std::endl; break;
+        case AccessErrorCode::NotEmptyPlace: std::cout << "NotEmptyPlace" << std::endl; break;
+        case AccessErrorCode::DuplicateCarNumber: std::cout << "DuplicateCarNumber" << std::endl; break;
+        case AccessErrorCode::WrongPlaceNumber: std::cout << "WrongPlaceNumber" << std::endl; break;
+        case AccessErrorCode::WrongVehicleType: std::cout << "WrongVehicleType" << std::endl; break;
+        case AccessErrorCode::NotDisabledVehicle: std::cout << "NotDisabledVehicle" << std::endl; break;
+        case AccessErrorCode::NotAvailableVelRegService: std::cout << "NotAvailableVelRegService" << std::endl; break;
+        case AccessErrorCode::NotSuccessfulPayment: std::cout << "NotSuccessfulPayment" << std::endl; break;
+        case AccessErrorCode::BarrierIsBroken: std::cout << "BarrierIsBroken" << std::endl; break;
+    }
+    
     return;
 }
 
