@@ -61,7 +61,6 @@ bool ParkingPlacesManager::reservePlace(EntryKeyID clientID, PlaceID placeID)
     return true;
 }
 
-// TODO: change to void?
 bool ParkingPlacesManager::releasePlace(EntryKeyID clientID)
 {
     auto reservedPlaceIt = _reservedPlaces.find(clientID);

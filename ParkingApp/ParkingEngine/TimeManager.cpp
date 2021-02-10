@@ -31,7 +31,6 @@ TimeType TimeManager::getSessionDuraton(EntryKeyID keyID) const
 
 size_t TimeManager::getCurrentTime() const
 {
-    // TODO: remove this code from function
     static size_t currentTime = 0;
     
     return currentTime++;
