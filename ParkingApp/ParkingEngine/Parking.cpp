@@ -93,17 +93,6 @@ AccessResult Parking::acceptVehicle(const Vehicle& vehicle, size_t barrierNumber
     return reservePlace(keyID, vehicle, placeID);
 }
 
-bool Parking::acceptStaff(EntryKeyID keyID, size_t barrierNumber)
-{
-    if (_staffManager->getStaff(keyID))
-    {
-        _barriersManager->openBarrier(barrierNumber);
-        return true;
-    }
-    
-    return false;
-}
-
 void Parking::releaseVehicle(EntryKeyID keyID, size_t barrierNumber) 
 {
     const auto isSuccessPayment = _paymentManager->getPayment(keyID);

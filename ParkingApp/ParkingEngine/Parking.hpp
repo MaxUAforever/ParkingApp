@@ -57,8 +57,6 @@ public:
     AccessResult acceptVehicle(const Vehicle& vehicle, size_t barrierNumber, size_t placeID, boost::optional<EntryKeyID> clientID = boost::none);
     void releaseVehicle(EntryKeyID keyID, size_t barrierNumber);
     
-    bool acceptStaff(EntryKeyID keyID, size_t barrierNumber);
-    
     void onAlert(size_t barrierIndex) override;
     
     std::vector<PlaceID> getFreePlacesList() const;
