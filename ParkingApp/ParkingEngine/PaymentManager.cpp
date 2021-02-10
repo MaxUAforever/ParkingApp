@@ -3,19 +3,20 @@
 #include "ParkingPlace.hpp"
 #include "TimeManager.hpp"
 
-
 #include <cmath>
 
 namespace ParkingEngine
 {
 
-PaymentManager::PaymentManager(const TimeManager& timeManager,
+PaymentManager::PaymentManager(const ITimeManager& timeManager,
                                const IParkingPlacesManager& placesManager,
+                               VehicleDiscounts vehicleDiscounts,
                                double priceBaseСoefficient,
                                double disabledPersonDiscountCoef,
                                size_t floorDiscount)
     : _timeManager(timeManager)
     , _placesManager(placesManager)
+    , _vehicleCoefficients()
     , _priceBaseСoefficient(priceBaseСoefficient)
     , _disabledPersonDiscountCoef(disabledPersonDiscountCoef)
     , _floorDiscount(floorDiscount)
@@ -58,11 +59,6 @@ size_t PaymentManager::getTotalPrice(EntryKeyID keyID) const
     return totalPrice;
 }
 
-void PaymentManager::setVelicheCoefficient(VehicleType vehicleType, double vehicleCoefficient)
-{
-    _vehicleCoefficients.emplace(vehicleType, vehicleCoefficient);
-}
-
 double PaymentManager::getVelicheCoefficient(VehicleType vehicleType) const
 {
     auto coefficientIt = _vehicleCoefficients.find(vehicleType);
@@ -77,11 +73,6 @@ double PaymentManager::getVelicheCoefficient(VehicleType vehicleType) const
 size_t PaymentManager::getPriceBaseСoefficient() const
 {
     return _priceBaseСoefficient;
-}
-
-void PaymentManager::setPriceBaseСoefficient(size_t priceBaseСoefficient)
-{
-    _priceBaseСoefficient = priceBaseСoefficient;
 }
 
 void PaymentManager::registerObserver(IPaymentObserver* observer)

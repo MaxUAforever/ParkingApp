@@ -1,9 +1,9 @@
-#include "VelichesRegisterService.hpp"
+#include "VehiclesRegisterService.hpp"
 
 namespace ParkingEngine
 {
 
-boost::optional<bool> VelichesRegisterService::checkIsVehicleForDisabled(std::string regNumber)
+boost::optional<bool> VehiclesRegisterService::checkIsVehicleForDisabled(std::string regNumber)
 {
     static int crashCount = 0;
     

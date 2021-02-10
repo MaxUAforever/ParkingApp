@@ -25,7 +25,7 @@
 		5268FC6C25C0184F00345856 /* PaymentManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5268FC6A25C0184F00345856 /* PaymentManager.cpp */; };
 		5268FC7825C03D5D00345856 /* Staff.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5268FC7625C03D5D00345856 /* Staff.cpp */; };
 		5268FC7C25C0412300345856 /* Client.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5268FC7A25C0412300345856 /* Client.cpp */; };
-		5268FC8025C0590B00345856 /* VelichesRegisterService.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5268FC7E25C0590B00345856 /* VelichesRegisterService.cpp */; };
+		5268FC8025C0590B00345856 /* VehiclesRegisterService.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5268FC7E25C0590B00345856 /* VehiclesRegisterService.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -42,6 +42,7 @@
 
 /* Begin PBXFileReference section */
 		52174B7125D3470900D3DC64 /* ITimeManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ITimeManager.h; path = ParkingApp/ParkingEngine/ITimeManager.h; sourceTree = "<group>"; };
+		52174B7C25D3C4D800D3DC64 /* IVehicleManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = IVehicleManager.h; path = ParkingApp/ParkingEngine/IVehicleManager.h; sourceTree = "<group>"; };
 		5234299B25B3378F00A48661 /* ParkingApp */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ParkingApp; sourceTree = BUILT_PRODUCTS_DIR; };
 		5234299E25B3378F00A48661 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		523429B225B33FD500A48661 /* ParkingEngine */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ParkingEngine; sourceTree = "<group>"; };
@@ -54,8 +55,8 @@
 		523429CC25B4A22200A48661 /* Externals */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Externals; sourceTree = "<group>"; };
 		523429D725B57E7700A48661 /* PaymentService.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = PaymentService.cpp; path = ParkingApp/Externals/PaymentService.cpp; sourceTree = "<group>"; };
 		523429D825B57E7700A48661 /* PaymentService.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = PaymentService.hpp; path = ParkingApp/Externals/PaymentService.hpp; sourceTree = "<group>"; };
-		523429DB25B5836A00A48661 /* TimeManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TimeManager.cpp; path = ParkingApp/Externals/TimeManager.cpp; sourceTree = "<group>"; };
-		523429DC25B5836A00A48661 /* TimeManager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = TimeManager.hpp; path = ParkingApp/Externals/TimeManager.hpp; sourceTree = "<group>"; };
+		523429DB25B5836A00A48661 /* TimeManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TimeManager.cpp; path = ParkingApp/ParkingEngine/TimeManager.cpp; sourceTree = "<group>"; };
+		523429DC25B5836A00A48661 /* TimeManager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = TimeManager.hpp; path = ParkingApp/ParkingEngine/TimeManager.hpp; sourceTree = "<group>"; };
 		523429E125BA583C00A48661 /* Barrier.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Barrier.cpp; path = ParkingApp/ParkingEngine/Barrier.cpp; sourceTree = "<group>"; };
 		523429E225BA583C00A48661 /* Barrier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Barrier.hpp; path = ParkingApp/ParkingEngine/Barrier.hpp; sourceTree = "<group>"; };
 		523429E525BA590C00A48661 /* IBarrierObserver.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IBarrierObserver.hpp; path = ParkingApp/ParkingEngine/IBarrierObserver.hpp; sourceTree = "<group>"; };
@@ -87,8 +88,8 @@
 		5268FC7725C03D5D00345856 /* Staff.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Staff.hpp; path = ParkingApp/ParkingEngine/Staff.hpp; sourceTree = "<group>"; };
 		5268FC7A25C0412300345856 /* Client.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Client.cpp; path = ParkingApp/ParkingEngine/Client.cpp; sourceTree = "<group>"; };
 		5268FC7B25C0412300345856 /* Client.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Client.hpp; path = ParkingApp/ParkingEngine/Client.hpp; sourceTree = "<group>"; };
-		5268FC7E25C0590B00345856 /* VelichesRegisterService.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = VelichesRegisterService.cpp; path = ParkingApp/Externals/VelichesRegisterService.cpp; sourceTree = "<group>"; };
-		5268FC7F25C0590B00345856 /* VelichesRegisterService.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = VelichesRegisterService.hpp; path = ParkingApp/Externals/VelichesRegisterService.hpp; sourceTree = "<group>"; };
+		5268FC7E25C0590B00345856 /* VehiclesRegisterService.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = VehiclesRegisterService.cpp; path = ParkingApp/Externals/VehiclesRegisterService.cpp; sourceTree = "<group>"; };
+		5268FC7F25C0590B00345856 /* VehiclesRegisterService.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = VehiclesRegisterService.hpp; path = ParkingApp/Externals/VehiclesRegisterService.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +106,7 @@
 		5234299225B3378F00A48661 = {
 			isa = PBXGroup;
 			children = (
+				52174B7C25D3C4D800D3DC64 /* IVehicleManager.h */,
 				52174B7125D3470900D3DC64 /* ITimeManager.h */,
 				525C289725CA832B007F0FC0 /* ParkingFactory.cpp */,
 				525C289825CA832B007F0FC0 /* ParkingFactory.hpp */,
@@ -124,8 +126,8 @@
 				5263E24425C19057008FFCF0 /* EntryKeyGenerator.hpp */,
 				5263E23A25C1891F008FFCF0 /* ClientsManager.cpp */,
 				5263E23B25C1891F008FFCF0 /* ClientsManager.hpp */,
-				5268FC7E25C0590B00345856 /* VelichesRegisterService.cpp */,
-				5268FC7F25C0590B00345856 /* VelichesRegisterService.hpp */,
+				5268FC7E25C0590B00345856 /* VehiclesRegisterService.cpp */,
+				5268FC7F25C0590B00345856 /* VehiclesRegisterService.hpp */,
 				5268FC7A25C0412300345856 /* Client.cpp */,
 				5268FC7B25C0412300345856 /* Client.hpp */,
 				5268FC7625C03D5D00345856 /* Staff.cpp */,
@@ -245,7 +247,7 @@
 				5268FC6C25C0184F00345856 /* PaymentManager.cpp in Sources */,
 				5263E24525C19057008FFCF0 /* EntryKeyGenerator.cpp in Sources */,
 				525C289025CA7A0C007F0FC0 /* VehiclesManager.cpp in Sources */,
-				5268FC8025C0590B00345856 /* VelichesRegisterService.cpp in Sources */,
+				5268FC8025C0590B00345856 /* VehiclesRegisterService.cpp in Sources */,
 				525C289925CA832B007F0FC0 /* ParkingFactory.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

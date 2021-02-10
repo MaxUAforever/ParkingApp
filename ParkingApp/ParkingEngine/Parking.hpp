@@ -48,7 +48,8 @@ public:
             std::unique_ptr<IParkingPlacesManager> placesManager,
             std::unique_ptr<IClientsManager> clientsManager,
             std::unique_ptr<IStaffManager> staffManager,
-            std::unique_ptr<IBarriersManager> barriersManager);
+            std::unique_ptr<IBarriersManager> barriersManager,
+            std::unique_ptr<IVehiclesManager> vehiclesManager);
 
     AccessResult acceptVehicle(const Vehicle& vehicle, size_t barrierNumber, boost::optional<EntryKeyID> clientID = boost::none);
     AccessResult acceptVehicle(const Vehicle& vehicle, size_t barrierNumber, size_t placeNumber, boost::optional<EntryKeyID> clientID = boost::none);
@@ -72,7 +73,7 @@ private:
     std::unique_ptr<IClientsManager> _clientsManager;
     std::unique_ptr<IStaffManager> _staffManager;
     std::unique_ptr<IBarriersManager> _barriersManager;
-    std::unique_ptr<VehiclesManager> _vehiclesManager;
+    std::unique_ptr<IVehiclesManager> _vehiclesManager;
 };
 
 } //namespace ParkingEngine

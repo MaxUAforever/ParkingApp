@@ -1,5 +1,7 @@
 #include "VehiclesManager.hpp"
 
+#include "VehiclesRegisterService.hpp"
+
 namespace ParkingEngine
 {
 
@@ -32,6 +34,22 @@ bool VehiclesManager::removeVehicle(EntryKeyID keyID)
     return true;
 }
 
+boost::optional<bool> VehiclesManager::checkIsVehicleForDisabled(EntryKeyID keyID) const
+{
+    auto vehicleIt = _vehicles.find(keyID);
+    if (vehicleIt == _vehicles.end())
+    {
+        return false;
+    }
+    
+    const auto& vehicle = vehicleIt->second;
+    if (!vehicle.getRegNumber())
+    {
+        return false;
+    }
+    
+    return VehiclesRegisterService::checkIsVehicleForDisabled(*vehicle.getRegNumber());
+}
 
 void VehiclesManager::onSuccessPayment(EntryKeyID keyID)
 {

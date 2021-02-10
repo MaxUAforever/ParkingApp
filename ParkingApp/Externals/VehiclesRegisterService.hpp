@@ -1,5 +1,5 @@
-#ifndef VelichesRegisterService_hpp
-#define VelichesRegisterService_hpp
+#ifndef VehiclesRegisterService_hpp
+#define VehiclesRegisterService_hpp
 
 #include <stdio.h>
 #include <string>
@@ -8,7 +8,7 @@
 namespace ParkingEngine
 {
 
-class VelichesRegisterService
+class VehiclesRegisterService
 {
 public:
     static boost::optional<bool> checkIsVehicleForDisabled(std::string regNumber);
@@ -16,4 +16,4 @@ public:
 
 } // namespace ParkingEngine
 
-#endif /* VelichesRegisterService_hpp */
+#endif /* VehiclesRegisterService_hpp */

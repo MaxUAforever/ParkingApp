@@ -7,17 +7,19 @@
 
 #include "Vehicle.hpp"
 #include "EntryKeyGenerator.hpp"
-#include "IPaymentObserver.h"
+#include "IVehicleManager.h"
 
 namespace ParkingEngine
 {
 
-class VehiclesManager : public IPaymentObserver
+class VehiclesManager : public IVehiclesManager
 {
 public:
-    boost::optional<const Vehicle&> getVehicle(EntryKeyID keyID) const;
-    void addVehicle(EntryKeyID keyID, const Vehicle& vehicle);
-    bool removeVehicle(EntryKeyID keyID);
+    boost::optional<const Vehicle&> getVehicle(EntryKeyID keyID) const override;
+    void addVehicle(EntryKeyID keyID, const Vehicle& vehicle) override;
+    bool removeVehicle(EntryKeyID keyID) override;
+    
+    boost::optional<bool> checkIsVehicleForDisabled(EntryKeyID keyID) const override;
     
     void onSuccessPayment(EntryKeyID keyID) override;
     

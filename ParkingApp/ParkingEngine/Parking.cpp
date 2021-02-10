@@ -1,7 +1,7 @@
 #include "Parking.hpp"
 
 #include "TimeManager.hpp"
-#include "VelichesRegisterService.hpp"
+#include "VehiclesRegisterService.hpp"
 #include "EntryKeyGenerator.hpp"
 
 namespace ParkingEngine
@@ -12,19 +12,17 @@ Parking::Parking(std::unique_ptr<ITimeManager> timeManager,
                  std::unique_ptr<IParkingPlacesManager> placesManager,
                  std::unique_ptr<IClientsManager> clientsManager,
                  std::unique_ptr<IStaffManager> staffManager,
-                 std::unique_ptr<IBarriersManager> barriersManager)
+                 std::unique_ptr<IBarriersManager> barriersManager,
+                 std::unique_ptr<IVehiclesManager> vehiclesManager)
     : _timeManager(std::move(timeManager))
     , _paymentManager(std::move(paymentManager))
     , _placesManager(std::move(placesManager))
     , _clientsManager(std::move(clientsManager))
     , _staffManager(std::move(staffManager))
     , _barriersManager(std::move(barriersManager))
+    , _vehiclesManager(std::move(vehiclesManager))
 {
-    _vehiclesManager = std::make_unique<VehiclesManager>();
     _barriersManager->registerBarriersObserver(this);
-    
-    _paymentManager->setVelicheCoefficient(VehicleType::Motorbyke, 0.5);
-    _paymentManager->setVelicheCoefficient(VehicleType::Truck, 2);
     
     _paymentManager->registerObserver(&*_placesManager);
     _paymentManager->registerObserver(&*_clientsManager);
@@ -74,7 +72,7 @@ AccessResult Parking::acceptVehicle(const Vehicle& vehicle, size_t barrierNumber
     
     if (place->isForDisabledPerson())
     {
-        auto isVehicleForDisabled = VelichesRegisterService::checkIsVehicleForDisabled(vehicle.getRegNumber());
+        auto isVehicleForDisabled = _vehiclesManager->checkIsVehicleForDisabled(keyID);
         
         if (!isVehicleForDisabled)
         {

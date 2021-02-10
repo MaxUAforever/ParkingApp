@@ -3,15 +3,20 @@
 namespace ParkingEngine
 {
 
-Vehicle::Vehicle(VehicleRegNumber regNumber, VehicleType type)
-    : _regNumber(regNumber)
-    , _type(type)
+Vehicle::Vehicle(VehicleType type, VehicleRegNumberOpt regNumber)
+    : _type(type)
+    , _regNumber(regNumber)
 {
 }
 
-VehicleRegNumber Vehicle::getRegNumber() const
+VehicleRegNumberOpt Vehicle::getRegNumber() const
 {
     return _regNumber;
+}
+
+void Vehicle::setRegNumber(VehicleRegNumber regNumber)
+{
+    _regNumber = regNumber;
 }
 
 VehicleType Vehicle::getType() const

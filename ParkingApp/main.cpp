@@ -76,9 +76,9 @@ void printFreePlaces(const Parking& parking)
 
 int main(int argc, const char * argv[])
 {
-    Vehicle car1("C065MK", VehicleType::Car);
-    Vehicle car2("C404OC", VehicleType::Car);
-    Vehicle car3("A134AA", VehicleType::Car);
+    Vehicle car1(VehicleType::Car, std::string("C065MK"));
+    Vehicle car2(VehicleType::Car, std::string("C404OC"));
+    Vehicle car3(VehicleType::Car, std::string("A134AA"));
     
     auto parking = ParkingFacory().createParking(5, 2, 100, 0.8, 10);
     

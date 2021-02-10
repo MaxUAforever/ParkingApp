@@ -1,16 +1,19 @@
 #ifndef Vehicle_hpp
 #define Vehicle_hpp
 
-#include <stdio.h>
+#include <boost/optional.hpp>
 #include <iostream>
+#include <stdio.h>
 #include <string>
 
 namespace ParkingEngine
 {
 using VehicleRegNumber = std::string;
+using VehicleRegNumberOpt =  boost::optional<VehicleRegNumber>;
 
 enum class VehicleType : std::uint8_t
 {
+    Bicycle,
     Car,
     Truck,
     Motorbyke
@@ -19,16 +22,18 @@ enum class VehicleType : std::uint8_t
 class Vehicle
 {
 public:
-    explicit Vehicle(VehicleRegNumber regNumber, VehicleType type);
+    explicit Vehicle(VehicleType type, VehicleRegNumberOpt regNumber = boost::none);
     
-    VehicleRegNumber getRegNumber() const;
     VehicleType getType() const;
+    
+    VehicleRegNumberOpt getRegNumber() const;
+    void setRegNumber(VehicleRegNumber regNmber);
     
     bool operator== (const Vehicle& vehicle) const;
     
 private:
-    VehicleRegNumber _regNumber;
     VehicleType _type;
+    VehicleRegNumberOpt _regNumber;
 };
 
 } // namespace ParkingEngine
