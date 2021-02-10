@@ -30,7 +30,7 @@ enum class AccessErrorCode : std::uint8_t
     FullParking,
     NotEmptyPlace,
     DuplicateCarNumber,
-    WrongPlaceNumber,
+    WrongPlaceID,
     WrongVehicleType,
     NotDisabledVehicle,
     NotAvailableVelRegService,
@@ -54,19 +54,19 @@ public:
             std::unique_ptr<IVehiclesManager> vehiclesManager);
 
     AccessResult acceptVehicle(const Vehicle& vehicle, size_t barrierNumber, boost::optional<EntryKeyID> clientID = boost::none);
-    AccessResult acceptVehicle(const Vehicle& vehicle, size_t barrierNumber, size_t placeNumber, boost::optional<EntryKeyID> clientID = boost::none);
+    AccessResult acceptVehicle(const Vehicle& vehicle, size_t barrierNumber, size_t placeID, boost::optional<EntryKeyID> clientID = boost::none);
     void releaseVehicle(EntryKeyID keyID, const Vehicle& vehicle, size_t barrierNumber);
     
     bool acceptStaff(EntryKeyID keyID, size_t barrierNumber);
     
     void onAlert(size_t barrierIndex) override;
     
-    std::vector<PlaceNumber> getFreePlacesList() const;
+    std::vector<PlaceID> getFreePlacesList() const;
     
 private:
     void handleBarrierAlert(size_t barrierNumber, AccessErrorCode error);
     
-    AccessResult reservePlace(EntryKeyID keyID, const Vehicle& vehicle, PlaceNumber placeNumber);
+    AccessResult reservePlace(EntryKeyID keyID, const Vehicle& vehicle, PlaceID placeID);
     
 private:
     std::unique_ptr<ITimeManager> _timeManager;

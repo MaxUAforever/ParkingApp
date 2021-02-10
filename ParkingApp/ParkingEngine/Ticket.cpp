@@ -3,9 +3,9 @@
 namespace ParkingEngine
 {
 
-Ticket::Ticket(EntryKeyID keyID, PlaceNumber placeNumber)
+Ticket::Ticket(EntryKeyID keyID, PlaceID placeID)
     : _keyID(keyID)
-    , _placeNumber(placeNumber)
+    , _placeID(placeID)
 {
 }
 
@@ -14,9 +14,9 @@ EntryKeyID Ticket::getKeyID() const
     return _keyID;
 }
 
-PlaceNumber Ticket::getPlaceNumber() const
+PlaceID Ticket::getPlaceID() const
 {
-    return _placeNumber;
+    return _placeID;
 }
 
-}
+} // namespace ParkingEngine

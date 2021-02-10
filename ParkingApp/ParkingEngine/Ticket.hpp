@@ -12,14 +12,14 @@ namespace ParkingEngine
 class Ticket
 {
 public:
-    explicit Ticket(EntryKeyID keyID, PlaceNumber placeNumber);
+    explicit Ticket(EntryKeyID keyID, PlaceID placeID);
 
     EntryKeyID getKeyID() const;
-    PlaceNumber getPlaceNumber() const;
+    PlaceID getPlaceID() const;
 
 private:
     EntryKeyID _keyID;
-    PlaceNumber _placeNumber;
+    PlaceID _placeID;
 };
 
 }

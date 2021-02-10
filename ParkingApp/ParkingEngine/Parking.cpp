@@ -27,9 +27,9 @@ Parking::Parking(std::unique_ptr<ITimeManager> timeManager,
     _paymentManager->registerObserver(&*_vehiclesManager);
 }
 
-AccessResult Parking::reservePlace(EntryKeyID keyID, const Vehicle& vehicle, PlaceNumber placeNumber)
+AccessResult Parking::reservePlace(EntryKeyID keyID, const Vehicle& vehicle, PlaceID placeID)
 {
-    if (!_placesManager->reservePlace(keyID, placeNumber))
+    if (!_placesManager->reservePlace(keyID, placeID))
     {
         return AccessErrorCode::NotEmptyPlace;
     }
@@ -37,7 +37,7 @@ AccessResult Parking::reservePlace(EntryKeyID keyID, const Vehicle& vehicle, Pla
     _timeManager->startSession(keyID);
     _vehiclesManager->addVehicle(keyID, vehicle);
     
-    return Ticket(keyID, placeNumber);
+    return Ticket(keyID, placeID);
 }
 
 AccessResult Parking::acceptVehicle(const Vehicle& vehicle, size_t barrierNumber, boost::optional<EntryKeyID> clientID)
@@ -53,7 +53,7 @@ AccessResult Parking::acceptVehicle(const Vehicle& vehicle, size_t barrierNumber
     return reservePlace(keyID, vehicle, freeSuitablePlaces.at(0));
 }
 
-AccessResult Parking::acceptVehicle(const Vehicle& vehicle, size_t barrierNumber, size_t placeNumber, boost::optional<EntryKeyID> clientID)
+AccessResult Parking::acceptVehicle(const Vehicle& vehicle, size_t barrierNumber, size_t placeID, boost::optional<EntryKeyID> clientID)
 {
     const auto keyID = clientID ? *clientID : EntryKeyGenerator::generateKey();
     
@@ -62,10 +62,10 @@ AccessResult Parking::acceptVehicle(const Vehicle& vehicle, size_t barrierNumber
         return AccessErrorCode::FullParking;
     }
 
-    const auto& place = _placesManager->getPlace(placeNumber);
+    const auto& place = _placesManager->getPlace(placeID);
     if (!place)
     {
-        return AccessErrorCode::WrongPlaceNumber;
+        return AccessErrorCode::WrongPlaceID;
     }
     
     if (place->isForDisabledPerson())
@@ -89,7 +89,7 @@ AccessResult Parking::acceptVehicle(const Vehicle& vehicle, size_t barrierNumber
         return AccessErrorCode::WrongVehicleType;
     }
     
-    return reservePlace(keyID, vehicle, placeNumber);
+    return reservePlace(keyID, vehicle, placeID);
 }
 
 bool Parking::acceptStaff(EntryKeyID keyID, size_t barrierNumber)
@@ -134,7 +134,7 @@ void Parking::handleBarrierAlert(size_t barrierNumber, AccessErrorCode error)
         case AccessErrorCode::FullParking: std::cout << "FullParking" << std::endl; break;
         case AccessErrorCode::NotEmptyPlace: std::cout << "NotEmptyPlace" << std::endl; break;
         case AccessErrorCode::DuplicateCarNumber: std::cout << "DuplicateCarNumber" << std::endl; break;
-        case AccessErrorCode::WrongPlaceNumber: std::cout << "WrongPlaceNumber" << std::endl; break;
+        case AccessErrorCode::WrongPlaceID: std::cout << "WrongPlaceID" << std::endl; break;
         case AccessErrorCode::WrongVehicleType: std::cout << "WrongVehicleType" << std::endl; break;
         case AccessErrorCode::NotDisabledVehicle: std::cout << "NotDisabledVehicle" << std::endl; break;
         case AccessErrorCode::NotAvailableVelRegService: std::cout << "NotAvailableVelRegService" << std::endl; break;
@@ -145,7 +145,7 @@ void Parking::handleBarrierAlert(size_t barrierNumber, AccessErrorCode error)
     return;
 }
 
-std::vector<PlaceNumber> Parking::getFreePlacesList() const
+std::vector<PlaceID> Parking::getFreePlacesList() const
 {
     return _placesManager->getFreePlacesList();
 }

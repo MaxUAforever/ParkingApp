@@ -8,15 +8,15 @@
 
 namespace ParkingEngine
 {
-using PlaceNumber = size_t;
+using PlaceID = size_t;
 
 class ParkingPlace
 {
 public:
-    explicit ParkingPlace(PlaceNumber number, int floor = 0, bool isForDisabledPerson = false, VehicleType vehicleType = VehicleType::Car);
+    explicit ParkingPlace(PlaceID number, int floor = 0, bool isForDisabledPerson = false, VehicleType vehicleType = VehicleType::Car);
     
-    PlaceNumber getNumber() const;
-    void setNumber(PlaceNumber number);
+    PlaceID getNumber() const;
+    void setNumber(PlaceID number);
     
     int getFloor() const;
     void setFloor(int floor);
@@ -31,7 +31,7 @@ public:
     bool operator< (const ParkingPlace& place) const;
     
 private:
-    PlaceNumber _number;
+    PlaceID _number;
     VehicleType _vehicleType;
     bool _isForDisabledPerson;
     int _floor;

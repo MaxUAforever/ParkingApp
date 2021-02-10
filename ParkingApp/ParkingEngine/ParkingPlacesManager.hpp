@@ -12,11 +12,9 @@
 
 namespace ParkingEngine
 {
-// TODO: change PlaceNumber to PlaceID;
-// TODO: remove usings?
-using ParkingPlaces = std::map<PlaceNumber, ParkingPlace>;
-using FreePlacesIDs = std::set<PlaceNumber>;
-using ReservedPlacesIDs = std::map<EntryKeyID, PlaceNumber>;
+using ParkingPlaces = std::map<PlaceID, ParkingPlace>;
+using FreePlacesIDs = std::set<PlaceID>;
+using ReservedPlacesIDs = std::map<EntryKeyID, PlaceID>;
 
 using IsPlaceSuitableFunc = std::function<bool(const ParkingPlace&)>;
 
@@ -25,22 +23,22 @@ class ParkingPlacesManager : public IParkingPlacesManager
 public:
     ParkingPlacesManager(size_t placesCount);
     
-    boost::optional<const ParkingPlace&> getPlace(PlaceNumber placeNumber) const override;
+    boost::optional<const ParkingPlace&> getPlace(PlaceID placeID) const override;
     boost::optional<const ParkingPlace&> getReservedPlace(EntryKeyID keyID) const override;
     
     bool reserveFreePlace(EntryKeyID clientID) override;
-    bool reservePlace(EntryKeyID clientID, PlaceNumber placeNumber) override;
+    bool reservePlace(EntryKeyID clientID, PlaceID placeID) override;
     bool releasePlace(EntryKeyID clientID) override;
     
     bool isParkingFull() const override;
-    std::vector<PlaceNumber> getFreePlacesList() const override;
-    std::vector<PlaceNumber> getFreePlacesList(VehicleType vehicleType) const override;
-    std::vector<PlaceNumber> getFreePlacesList(bool isForDisabledPerson) const override;
+    std::vector<PlaceID> getFreePlacesList() const override;
+    std::vector<PlaceID> getFreePlacesList(VehicleType vehicleType) const override;
+    std::vector<PlaceID> getFreePlacesList(bool isForDisabledPerson) const override;
     
     void onSuccessPayment(EntryKeyID clientID) override;
     
 private:
-    std::vector<PlaceNumber> getFreePlacesListByParam(IsPlaceSuitableFunc isSuitableFunc) const;
+    std::vector<PlaceID> getFreePlacesListByParam(IsPlaceSuitableFunc isSuitableFunc) const;
 
 private:
     ParkingPlaces _places;

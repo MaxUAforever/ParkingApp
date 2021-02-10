@@ -7,16 +7,16 @@ namespace ParkingEngine
 
 ParkingPlacesManager::ParkingPlacesManager(size_t placesCount)
 {
-    for (PlaceNumber i = 1; i <= placesCount; ++i)
+    for (PlaceID i = 1; i <= placesCount; ++i)
     {
         _places.emplace(i, ParkingPlace(i));
         _freePlaces.emplace(i);
     }
 }
 
-boost::optional<const ParkingPlace&> ParkingPlacesManager::getPlace(PlaceNumber placeNumber) const
+boost::optional<const ParkingPlace&> ParkingPlacesManager::getPlace(PlaceID placeID) const
 {
-    auto placeIt = _places.find(placeNumber);
+    auto placeIt = _places.find(placeID);
     if (placeIt != _places.end())
     {
         return placeIt->second;
@@ -43,13 +43,13 @@ bool ParkingPlacesManager::reserveFreePlace(EntryKeyID clientID)
         return false;
     }
     
-    const auto& placeNumber = _freePlaces.begin();
-    return reservePlace(clientID, *placeNumber);
+    const auto& placeID = _freePlaces.begin();
+    return reservePlace(clientID, *placeID);
 }
 
-bool ParkingPlacesManager::reservePlace(EntryKeyID clientID, PlaceNumber placeNumber)
+bool ParkingPlacesManager::reservePlace(EntryKeyID clientID, PlaceID placeID)
 {
-    auto placeIt = _freePlaces.find(placeNumber);
+    auto placeIt = _freePlaces.find(placeID);
     if (placeIt == _freePlaces.end())
     {
         return false;
@@ -70,9 +70,9 @@ bool ParkingPlacesManager::releasePlace(EntryKeyID clientID)
         return false;
     }
     
-    auto placeNumber = reservedPlaceIt->second;
+    auto placeID = reservedPlaceIt->second;
     
-    _freePlaces.emplace(std::move(placeNumber));
+    _freePlaces.emplace(std::move(placeID));
     _reservedPlaces.erase(reservedPlaceIt);
     
     return true;
@@ -83,7 +83,7 @@ bool ParkingPlacesManager::isParkingFull() const
     return _freePlaces.empty();
 }
 
-std::vector<PlaceNumber> ParkingPlacesManager::getFreePlacesList() const
+std::vector<PlaceID> ParkingPlacesManager::getFreePlacesList() const
 {
     return getFreePlacesListByParam([](const ParkingPlace&)
                                 {
@@ -91,7 +91,7 @@ std::vector<PlaceNumber> ParkingPlacesManager::getFreePlacesList() const
                                 });
 }
 
-std::vector<PlaceNumber> ParkingPlacesManager::getFreePlacesList(VehicleType vehicleType) const
+std::vector<PlaceID> ParkingPlacesManager::getFreePlacesList(VehicleType vehicleType) const
 {
     return getFreePlacesListByParam([&](const ParkingPlace& place)
                                 {
@@ -99,7 +99,7 @@ std::vector<PlaceNumber> ParkingPlacesManager::getFreePlacesList(VehicleType veh
                                 });
 }
 
-std::vector<PlaceNumber> ParkingPlacesManager::getFreePlacesList(bool isForDisabledPerson) const
+std::vector<PlaceID> ParkingPlacesManager::getFreePlacesList(bool isForDisabledPerson) const
 {
     return getFreePlacesListByParam([&](const ParkingPlace& place)
                                 {
@@ -107,9 +107,9 @@ std::vector<PlaceNumber> ParkingPlacesManager::getFreePlacesList(bool isForDisab
                                 });
 }
 
-std::vector<PlaceNumber> ParkingPlacesManager::getFreePlacesListByParam(IsPlaceSuitableFunc isSuitableFunc) const
+std::vector<PlaceID> ParkingPlacesManager::getFreePlacesListByParam(IsPlaceSuitableFunc isSuitableFunc) const
 {
-    std::vector<PlaceNumber> freePlacesIndexes;
+    std::vector<PlaceID> freePlacesIndexes;
     
     for (const auto& placeID : _freePlaces)
     {

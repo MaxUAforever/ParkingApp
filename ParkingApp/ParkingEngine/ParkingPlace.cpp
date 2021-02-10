@@ -13,12 +13,12 @@ ParkingPlace::ParkingPlace(size_t number, int floor, bool isForDisabledPerson, V
     , _vehicleType(vehicleType)
 {}
     
-PlaceNumber ParkingPlace::getNumber() const
+PlaceID ParkingPlace::getNumber() const
 {
     return _number;
 }
 
-void ParkingPlace::setNumber(PlaceNumber number)
+void ParkingPlace::setNumber(PlaceID number)
 {
     _number = number;
 }

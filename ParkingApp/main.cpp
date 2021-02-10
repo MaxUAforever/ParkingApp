@@ -31,7 +31,7 @@ boost::optional<Ticket> processParkingAccessResult(const AccessResult& result)
                 std::cout << "Sorry, parking is full.\n";
                 break;
             }
-            case AccessErrorCode::WrongPlaceNumber:
+            case AccessErrorCode::WrongPlaceID:
             {
                 std::cout << "Place number is incorrect.\n";
                 break;
@@ -66,7 +66,7 @@ boost::optional<Ticket> processParkingAccessResult(const AccessResult& result)
     else if (result.type() == typeid(Ticket))
     {
         const auto ticket = boost::get<Ticket>(result);
-        std::cout << "Welcome! Your place is " << ticket.getPlaceNumber() << ".\n";
+        std::cout << "Welcome! Your place is " << ticket.getPlaceID() << ".\n";
         
         return ticket;
     }
@@ -77,9 +77,9 @@ boost::optional<Ticket> processParkingAccessResult(const AccessResult& result)
 void printFreePlaces(const Parking& parking)
 {
     std::cout << "Free places: ";
-    for (const auto& placeNumber : parking.getFreePlacesList())
+    for (const auto& placeID : parking.getFreePlacesList())
     {
-        std::cout << placeNumber << " ";
+        std::cout << placeID << " ";
     }
     std::cout << std::endl;
 }
